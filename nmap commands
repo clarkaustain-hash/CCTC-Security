@@ -1,0 +1,60 @@
+Replace TARGET with an IP, range (e.g., 192.168.1.0/24), domain, or -iL targets.txt.
+1. Host Discovery (Find live hosts)
+Skip port scanning entirely — just find what's online. Modern networks block ICMP, so combine probes.
+
+Fast & reliable default (no port scan, skips ICMP if needed):
+nmap -sn TARGET
+God-tier combo — most networks respect at least one of these:
+nmap -sn -PE -PS22,80,443 -PA22,80,443 -PU53,161 -T4 TARGET
+(ICMP echo + common TCP SYN/ACK + UDP DNS/SNMP)
+Ultra-stealth / firewall-heavy env (no ICMP, only top ports):
+nmap -sn -PS80,443,22,3389 -PA80,443 -T3 --spoof-mac 0 TARGET
+No ping at all (assume host is up — useful when firewall drops discovery):
+nmap -Pn TARGET
+
+2. Port Enumeration (Find open ports on live hosts)
+Once you have live hosts, find open ports fast.
+
+Fast top ports + stealth (most people use this daily):
+nmap -sS --top-ports 1000 -T4 TARGET
+Full port scan + fast (when you need everything — takes longer):
+nmap -sS -p- -T4 --min-rate 1000 TARGET
+(or -T5 if you're impatient and the network can handle it)
+Top 100 + aggressive speed (great balance for quick recon):
+nmap -sS --top-ports 100 -T4 --open TARGET
+(only shows open ports — cleaner output)
+UDP scan (critical — many forget UDP, but 53/123/161/389/500 can own you):
+nmap -sU --top-ports 100 -T4 TARGET
+(UDP is slow — limit ports or use with -sS combo)
+All TCP + top UDP combo (one-liner monster):
+nmap -sS -sU -T4 --top-ports 200 TARGET
+
+3. Port Interrogation (Service + version + extra intel)
+Once ports are known, fingerprint what's actually running.
+
+God-tier one-shot (the famous aggressive scan — ports + services + OS + scripts + traceroute):
+nmap -A -T4 TARGET
+(or nmap -sS -sV -O -sC -T4 --open TARGET if you want to be explicit)
+Service/version only + default scripts (clean & powerful):
+nmap -sV -sC -p- TARGET
+(or limit to known ports: -p $(cat open_ports.txt))
+Max version probing (when you really need exact daemon/version):
+nmap -sV --version-intensity 9 -p 80,443,22,445 TARGET
+Vuln + brute + auth scripts (NSE power move — run after finding services):
+nmap -sV --script vuln,default,safe,auth TARGET
+(or specific: --script http-enum,smb-vuln*,ssh*)
+Fast version + OS guess + top scripts (quick but still deep):
+nmap -sV -O -sC --top-ports 1000 -T4 TARGET
+
+Pro Tips for God-Tier Usage
+
+Output everything (you'll thank yourself later):
+Add -oA scans/target-$(date +%F) → gives .nmap (human), .gnmap (grepable), .xml (tools)
+Speed without dying — -T4 is usually sweet spot; -T5 on fast links only; add --min-rate 800 --max-retries 1 for large ranges
+Stealth — -sS -T2 -f --data-length 16 -g 53 --spoof-mac 0 (fragment + fake source port + MAC spoof)
+Resume / resume after crash: nmap --resume scans/target-*.gnmap
+Chain scans — first -sn → grep live hosts → feed to full scan:
+nmap -sn 10.10.10.0/24 -oG - | awk '/Up$/{print $2}' > live.txtnmap -iL live.txt -A -T4 -oA full
+
+Run with sudo when possible (SYN scans, OS detection, some probes need raw sockets).
+These are battle-tested — no fluff. Start with -sn, move to -sS --top-ports, finish with -A or -sV -sC. Adjust timing/ports based on your target and patience. Happy (ethical) hunting.
