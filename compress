@@ -1,0 +1,208 @@
+Script Management
+Scripts are stored in a subdirectory of the Nmap data directory by default:
+
+
+
+/usr/share/nmap/scripts
+
+
+
+-> Research
+https://www.exploit-db.com/exploits/49637
+
+https://nvd.nist.gov/vuln/detail/cve-2021-26855
+
+https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2021-26855
+
+http://10.50.143.84:8000/  ==CTF
+FFLL-M-503
+Stack Number	Username	          Password	        jump
+2 	          AUCL-M-503 	        S9uu0HdlwrT1 	    10.50.11.82
+
+Skills:
+Demonstrate Open Source Intelligence Gathering
+
+Demonstrate Pivoting & Redirection in SSH
+
+Demonstrate Nmap Scripting Engine
+
+Perform Network Scanning & Reconnaissance
+
+
+-> Scraping Data
+Prep
+# Install required Python packages for web scraping
+pip install lxml requests
+Script
+#!/usr/bin/python3
+import lxml.html
+import requests
+import sys
+
+try:
+    # Connect to target website with timeout
+    print("Connecting to quotes.toscrape.com...")
+    page = requests.get('http://quotes.toscrape.com', timeout=10)
+    page.raise_for_status()  # Raise exception for bad status codes
+
+    # Parse HTML content
+    tree = lxml.html.fromstring(page.content)
+  
+  -> Advanced Scanning Techniques
+  Host Discovery
+  
+  Find hosts that are online
+  
+  Port Enumeration
+  
+  Find ports for each host that is online
+  
+  Port Interrogation
+  
+  Find what service is running on each open/available port
+  
+  
+SSH for Reconnaissance
+Why? "Live off the land", route tools, reach internal services
+
+Dynamic SOCKS (-D): Proxychains support (TCP only)
+
+Local Forward (-L): Access internal services (web/SSH)
+
+Remote Forward (-R): Expose local tools to target
+
+ProxyJump (-J): Clean multi-hop navigation
+
+
+
+
+Script Management
+Scripts are stored in a subdirectory of the Nmap data directory by default:
+
+
+
+/usr/share/nmap/scripts
+
+
+
+Usage and Examples
+!!! Note NSE scripts provide automated vulnerability detection and service enumeration capabilities
+
+# Run specific script or category
+nmap --script <filename>|<category>|<directory>
+
+# Get help for specific scripts
+nmap --script-help "ftp-* and discovery"
+
+# Pass arguments to scripts
+nmap --script-args <args>
+nmap --script-args-file <filename>
+
+# Get help for scripts
+nmap --script-help <filename>|<category>|<directory>
+
+# Enable script tracing for debugging
+nmap --script-trace
+
+master socket ssh -> every box create a new master socket
+ssh -MS /tmp/jump demo1@10.50.12.21
+
+proxychains
+ssh -S /tmp/jump jump -O forward -D 9050
+
+-> nmap for host discovery ip
+for i in {1..255}; do (ping -c 1 10.50.12.$i | grep "bytes from" &); done
+
+64 bytes from 10.50.12.22: 53
+64 bytes from 10.50.12.23: 22, 53, 3389
+64 bytes from 10.50.12.24: 22, 53, 3389
+
+
+-> running a script wildcard* if you dont know which to use
+nmap -p 53 --script dns* 10.50.12.22-24
+
+to verify http 300s redirection 400s errors
+nmap -p 80 --script http-enum 10.50.12.22-24
+
+-> ping sweep
+for i in {96..128}; do proxychains nc -nvzw1 192.168.NetID.$i 22 53 80 135 137 139 445 2>&1 | grep OK | grep -Eo "192.168.NetID.:[0-9]" ;done
+
+multiple port forward
+ssh -S /tmp/jump jump -O forward -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+
+cancel them
+ssh -S /tmp/jump jump -O cancel -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+
+to check to make sure connections is connected
+ss -antlp
+
+
+
+
+Stealthy Multiplexer
+10
+
+Use SSH Multiplexing (Control Sockets) to achieve this on your Jump Box, which was the IP given from the /classinfo.html website.
+
+The administrator monitors for "excessive connections".
+
+    Create a Master Socket
+    Establish at least 2 simultaneous active shell sessions (PTYs).
+    BUT, you must maintain only ONE established TCP connection to the server on its SSH service.
+    Submit the flag that is in 'agent's' home folder .
+
+creds: agent :: stealth_mode_on
+
+Your flag will be a unique string of twenty random characters.
+
+
+ AUCL-M-503 	        S9uu0HdlwrT1 	    10.50.11.82
+
+
+SITREP:Your team has been deployed for Operation Golden Nugget, in direct support of Gorgas forces amid the Donovian-Gorgas war. You have been tasked to collect, analyze, and process data utilizing various reconnaissance techniques throughout Donovian and Gorgas Cyberspace.
+
+Maintain 'low visibility' on the wire, as security products may be in place, and document your actions and results as you will be expected to provide OpNotes upon request.
+
+Intelligence believes that not all of the 192.168.28.96/27 network has the ability to communicate with the 192.168.150.224/27 network.
+
+Donovian Reconnaissance and Scanning (DR&S)
+Start Time: 1300
+Duration: 4 hours
+
+Type of Operation: Cyber Intelligence, Surveillance and Reconnaissance (C-ISR)
+
+Objective:Scan target networks to gather pertinent host information.
+
+Tools/Techniques: All connections will be established through network scans or web browser. Ports in use will be dependent on target location and are subject to change. Network scanning tools/techniques are limited to NSE scripts, python lxml and OSINT.
+
+Scenario Credentials: FLAG = R3C0N5t@rt0F@ct1v1ty
+
+Prior Approvals: OSINT through publicly available resources. Scrape appropriate web content that will provide operational data. Testing of found credentials. NOT approved to change routing, passwords, services, destroy data, upload of tools, create accounts
+
+Scheme of Maneuver:
+>Jump Box
+->Network scan: 192.168.28.96/27
+-->Network scan:192.168.150.224/27
+
+Target Section:
+
+Network scans:
+Network: 192.168.28.96/27
+Network:192.168.150.224/27
+OSs: unknown
+Creds: student ::
+Known Ports: unknown
+Known URL: consulting.site.donovia
+Known URL: conference.site.donovia
+Action: Reconnaissance to collect intelligence and identify possible avenues of approach in the network.
+
+
+
+You have shell access to the jumpbox as user student.
+
+An automated script recently ran and left an active SSH connection open to the restricted target-host. The credentials have been wiped, but the Control Socket might still be active.
+
+Find the socket. Use it to jump to the target-host and retrieve the flag from flag from Socket owners home folder.
+
+Your flag will be a unique string of twenty random characters
+If connection refused, remove file
