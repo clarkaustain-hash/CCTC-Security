@@ -116,3 +116,55 @@ Action: Conduct approved Web Exploitation techniques to collect intellegence.
 
 
  S9uu0HdlwrT1 	    10.50.11.82
+
+
+
+
+
+http://127.0.0.1:10004/net_test/industry_check.php
+
+
+; ls /var/www/html
+
+80/tcp   open  http
+| http-enum: 
+|   /robots.txt: 
+|   /css/:
+|   /images/: 
+|_  /uploads/: 
+4444/tcp open  krb524
+
+
+
+Contract_bids.html
+TT
+css
+db_recover.php
+fileUpload.php
+images
+index.html
+net_test
+robots.txt
+style.css
+uploads
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
