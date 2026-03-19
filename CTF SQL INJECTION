@@ -13,6 +13,7 @@ Scenario Credentials: FLAG = 5QL1nj3ct5t@rt0F@ct1v1ty
 
 Prior Approvals: SQLi injects through web browser. Creation of database administrator account if directed to. Any connection to donovian-nla other than HTTP/HTTPs is NOT approved.
 
+2 	          AUCL-M-503 	        S9uu0HdlwrT1 	    10.50.11.82
 Scheme of Maneuver:
 >Jump Box
 ->T1:10.100.28.48
@@ -24,7 +25,7 @@ Hostname: donovian-nla
 IP: 10.100.28.48
 OS: unknown
 Creds:unknown
-Last Known SSH Port: unknown
+Last Known SSH Port: 4444
 Last Known HTTP Port: 80
 PSP: Unknown
 Malware: Unknown
