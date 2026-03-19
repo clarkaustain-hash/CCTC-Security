@@ -336,16 +336,68 @@ Selection=2 UNION SELECT null,name,color FROM car
 
 
 
+Blind Injection
+Inlcudes Statements to determine how DB is configured
+
+Columns in Output
+
+Can we return errors
+
+Can we return expected Output
+
+Used when unsanitized fields give generic error or no messages
+
+
+Normal Query to pull expected output:
+
+php?item=4
+
+
+Blind injection for validation:
+
+php?item=4 OR 1=1
+
+Try ALL combinations! item=1, item=2, item=3, etc.
+
+
+
+Abuse The Client (GET METHOD)
+Passing injection through the URL:
+
+After the .php?item=4 pass your UNION statement
+
+prices.php?item=4 UNION SELECT 1,2
+
+prices.php?item=4 UNION SELECT 1,2,@@version
+What is @@version
+
+
+
+
+Abuse The Client (Enum)
+Identifying the schema leads to detailed queries to enumerate the DB
+
+
+Research Database Schemas and what information they provide
+
+
+php?item=4 UNION SELECT 1,table_name,3 from information_schema.tables where table_schema=database()
+
+What are information_schema and database()
 
 
 
 
 
 
+Defending Against
+Validate inputs! Methods differ depending on software
 
+concatenate : turns inputs into single strings or escape characters
 
+PHP: mysql_real_escape_string
 
-
+SQL: sqlite3_prepare()
 
 
 
