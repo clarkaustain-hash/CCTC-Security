@@ -158,6 +158,13 @@ uploads
 
 10.100.28.55
 
+80/tcp   open  http
+| http-enum: 
+|   /css/
+|   /images/
+|_  /js/
+4444/tcp open  krb524
+
 
 
 
