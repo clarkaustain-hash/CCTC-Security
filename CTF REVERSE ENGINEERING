@@ -47,9 +47,23 @@ S9uu0HdlwrT1 	    10.50.11.82
 
 
 
+Basic Algorithm
+10
+Level II Challenge
+Situation:
+Various teams have extracted binaries from Donovian development networks. Analyze the given binaries to find weaknesses and create signatures.
+
+Provided:
+compiled executable: (basic1.exe)
+Task: Run the executable and retrieve a successful message using the binary's key.
+Method: disassemble the executable and follow the program’s execution to discover its functionality, and expected input.
+
+Add the value of all of the keys together. What is the MD5 hash of this sum?
 
 
-
+0x2d
+0x2b
+79bc18f6cbd3b2290cbd69c190d62bc6
 
 
 
