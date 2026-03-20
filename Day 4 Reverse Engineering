@@ -1,1 +1,215 @@
+Bit
+
+Smallest unit in computing - 0 or 1
+
+Nibble
+
+4 bits/half an octet
+
+Byte
+
+8 bits
+
+Word
+
+16 bits
+
+DWord
+
+32 bits - common
+
+QWord
+
+64 bits - common
+
+
+
+
+
+There are also sixteen 128 bit SSE registers used for floating point and double operations. They are %xmm0 - %xmm15
+
+SSE=Streaming SIMD Extension
+SIMD=Single Instruction, Multiple Data: Typical applications are digital signal processing and graphics processing.
+Registers Diagram
+
+Utilise provided registers diagram to visually explain how certain registers can be broken down into different components.
+
+1.5: Understand standard x86_64 Intel instructions¶
+For the most part, assembly instructions follow the following format: CMD DST,SRC It is always the destination that is updated when performing these actions. The source does not change.
+
+MOV: move to destination from source
+
+
+mov r15,#n  <- r15 = #n where #n is a specified value to be moved into r15
+mov r15,r13 <- the value of r13 is copied into r15. The value in r13 is not changed.
+mov rax,m   <- move contents of 64bit address to %rax
+mov m,rax   <- move contents of %rax to 64 bit memory address
+PUSH: push source onto stack. This is a special form of MOV where the destination is always the top of the stack.
+
+
+push r15    <-push r15 onto stack. The stack pointer %rsp then updates to the location of the new top of the stack.
+POP: Pop top of stack to destination. This is a special form of MOV where the source is always the top of the stack.
+
+
+pop r8      <-move value on top of stack to r8 and update the stack pointer. 
+INC: Increment source by 1
+
+
+inc r8      <-increment value in r8 by 1
+DEC: Decrement source by 1
+
+
+dec r8      <-decrement value in r8 by 1
+ADD: Add source to destination
+
+
+add r13,#n  <-add #n to %r13, store result in %r13
+add r13,r12  <-add the value in %r12 to %r13, store result in %r13. %r12 is not changed by this action.
+SUB: Subtract source from destination
+
+
+sub r13,#n  <-subtract #n from %r13, store result in %r13
+sub r13,r12  <-subtract the value in %r12 from %r13, store result in %r13. %r12 is not changed by this action.
+CMP: Compare 2 values by subtracting them and setting the %RFLAGS register. ZeroFlag set means they are the same. SignFlag set means the result of the comparison is the first register being less than the second register.
+
+
+cmp r8, r9  <- compare value of r8 to r9. Set flags as appropriate.
+JMP: Jump to specified location
+
+
+jmp MEM1    <-jump to memory label MEM1
+JLE: Jump if less than or equal
+
+
+jle MEM1    <-jump to memory label MEM1 if less than or equal
+JE: Jump if equal
+
+
+je MEM1     <-jump to memory label MEM1 if equal
+
+
+
+
+X86_64 Assembly Registers
+There are 16 general purpose 64-Bit registers
+
+
+
+%rax
+
+the first return register
+
+%rbp
+
+the base pointer that keeps track of the base of the stack
+
+%rsp
+
+the stack pointer that points to the top of the stack
+
+
+
+You will see arguments passed to functions as something like:
+
+[%ebp-0x8]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
