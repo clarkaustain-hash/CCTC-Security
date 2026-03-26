@@ -1,0 +1,44 @@
+Objective: Maneuver through Donovian-Extranet, identify and gain access futher into Donovian internal Cyberspace, it is believed that there is an network that acts as an internal DMZ between these to locations. Intelligence was able to identify the last octet of a system that resides in the Donovian internal Cyberspace.
+
+Tools/Techniques: All connections will be established through SSH masquerades or web browser. Ports in use will be dependent on target location and are subject to change. Network scanning tools/technique usage is at the discretion of student. Credential reuse is authorized
+
+Scenario Credentials: FLAG = P05T3xpl01t5t@rtoF@ct1v1ty
+
+Prior Approvals: Sudo usage and remote port forward is authorized. System dir walks from system roots, altering accounts/routing or tool uploads are authorized. Survey and access to newly discovered systems during C-ISR.
+
+Scheme of Maneuver:
+>Jump Box
+->T1: 192.168.28.100
+-->T3:x.x.x.9
+
+Target Section:
+
+T1
+Hostname: Donovian_Extranet
+IP: 192.168.28.100
+OS: CentOS
+Creds:Unknown
+Last Known SSH Port: 2222
+PSP: none
+Malware: none
+Action: Perform SSH masquerade and survey system. Identify redirection to the next target.
+
+T2
+Hostname: Donovian_Intranet
+IP: ???
+OS: ???
+Creds:Unknown
+Last Known SSH Port: ???
+PSP: none
+Malware: none
+Action: Perform SSH masquerade and survey system. Identify redirection to the next target.
+
+T3
+Hostname: unknown
+IP: x.x.x.9
+OS: unknown
+Creds:unknown
+Last Known SSH Port: unknown
+PSP: Unknown
+Malware: Unknown
+Action: Gain access; survey host and map Donovian internal Cyberspace.
