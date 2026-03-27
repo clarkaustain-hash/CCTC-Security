@@ -63,4 +63,7 @@ PORT      STATE SERVICE
 49669/tcp open  unknown
 49671/tcp open  unknown
 
+~$ ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 6768 -fN 2>/dev/null
+student@lin-ops:~$ ssh -S /tmp/t1 t1 -O forward -L 6775:192.168.150.253:3201
+student@lin-ops:~$ ssh -S /tmp/t1 t1 -O forward -L 6776:192.168.28.9:22
 
