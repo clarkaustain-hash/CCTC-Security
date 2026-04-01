@@ -58,6 +58,7 @@ Prior Approvals: OSINT through publicly available resources. Scrape appropriate 
 |   /img/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
 |_  /scripts/: Potentially interesting directory w/ listing on 'apache/2.4.29 (ubuntu)'
 
+10.10.28.20/27
 
 
 
@@ -65,14 +66,843 @@ Prior Approvals: OSINT through publicly available resources. Scrape appropriate 
 
 
 
+rwxr-xr-x 6 root root      4096 Mar 31 12:31 .
+drwxrwxr-x 3 root www-data  4096 Mar 13  2025 ..
+-rw-rw-rw- 1 root root      1503 Mar  5  2025 admin.php
+-rw-rw-rw- 1 root root       846 Mar  5  2025 apply.html
+drwxrwxrwx 2 root root      4096 Mar  5  2025 careers
+-rw-rw-rw- 1 root root       917 Mar  5  2025 careers.html
+-rw-rw-rw- 1 root root       744 Mar  5  2025 contact.html
+-rw-rw-rw- 1 root root       475 Mar  5  2025 getcareers.php
+drwxrwxrwx 2 root root      4096 Mar  5  2025 img
+-rw-rw-rw- 1 root root      1077 Mar  5  2025 index.html
+-rw-rw-rw- 1 root root     24939 Mar  5  2025 letterfromceo.pdf
+-rw-rw-rw- 1 root root       951 Mar  5  2025 login.html
+-rw-rw-rw- 1 root root      1425 Mar  5  2025 login.php
+-rw-rw-rw- 1 root root       215 Mar  5  2025 logout.php
+drwxrwxrwx 2 root root      4096 Mar 31 12:31 scripts
+-rw-rw-rw- 1 root root       742 Mar  5  2025 secureServ.php
+-rw-rw-rw- 1 root root       791 Mar  5  2025 site.css
+-rw-rw-rw- 1 root root       572 Mar  5  2025 software.php
+-rw-rw-rw- 1 root root       429 Mar  5  2025 status.php
+drwxrwxrwx 2 root root      4096 Mar  5  2025 sw .htaccess
+-rw-rw-rw- 1 root root       361 Mar  5  2025 upload.php
 
 
 
 
+siteusers 	id 	$customer
+siteusers 	name 	$customer
+siteusers 	account 	$customer
+siteusers 	category 	$customer
+siteusers 	description 	$customer
+
+siteusers 	id 	$net_products
+siteusers 	quantity 	$net_products
+siteusers 	product 	$net_products
+siteusers 	price 	$net_products
+
+siteusers 	id 	$purchase_history
+siteusers 	quantity 	$purchase_history
+siteusers 	product 	$purchase_history
+siteusers 	account 	$purchase_history
+
+siteusers 	id 	$shippingdates
+siteusers 	ordernumber 	$shippingdates
+siteusers 	account 	$shippingdates
+siteusers 	date 	$shippingdates
+
+siteusers 	user_id 	$users 
+siteusers 	name 	$users
+siteusers 	username 	$users
 
 
+1	  Aaron 	  appleBottomJ3an$
+2 	user2 	  TurkeyDay24
+3 	user3 	  Bob4THEPin3apples
+4 	Lee_Roth 	Yebgu
+4 	Lroth 	  anotherpassword4THEages
 
 
+64 bytes from 192.168.28.1: 
+64 bytes from 192.168.28.165: 22, 8888
+64 bytes from 192.168.28.175: 2222, 8000
+64 bytes from 192.168.28.189: icmp_seq=1 ttl=128 time=0.805 ms
 
+ssh www-data@10.50.14.19 -L 5300:192.168.28.175:2222 -NT
+
+
+Nmap scan report for 192.168.28.189
+Host is up (0.0014s latency).
+Not shown: 993 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+135/tcp  open  msrpc
+139/tcp  open  netbios-ssn
+445/tcp  open  microsoft-ds
+3389/tcp open  ms-wbt-server
+5357/tcp open  wsdapi
+9999/tcp open  abyss
+
+
+  GNU nano 2.9.3                                                                                                                                                                                                                                                                                                                                                                                                                                                    commandsrun.txt                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+    1  which openstack
+    2  ./bin/openstack --version
+    3  cd .
+    4  cd ..
+    5  nano .bashrc
+    6  . .bashrc
+    7  terminator
+    8  pip install lxml
+    9  pip install requests
+   10  sudo apt install multi-lib
+   11  sudo apt install multilib
+   12  sudo apt install gcc-multilib
+   13  sudo apt-get install lib32z1
+   14  openstack
+   15  gdb
+   16  sudo apt install open-vm-tools open-vm-tools-desktop
+   17  ifconfig
+   18  ipaddress show
+   19  ip addresss show
+   20  ip address show
+   21  ifconfig
+   22  sudo su -
+   23  ssh -S /tmp/newjump jump -O forward -D
+   24  proxychains ls
+   25  proxychains nmap -T4 10.50.11.82
+   26  ssh -S /tmp/newjump agent@10.50.11.82
+   27  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   28  ssh -S /tmp/newjump agent@10.50.11.82
+   29  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   30  ls
+   31  ls /usr/share/cctc
+   32  ls /usr/share/
+   33  clear
+   34  ls /usr/share/nmap/scripts/
+   35  clear
+   36  ssh -MS /tmp/jump demo1@10.50.12.21
+   37  proxychains
+   38  nmap -T4 10.50.12.22-24
+   39  for i in {96..128}; do proxychains nc -nvzw1 192.168.NetID.$i 22 53 80 135 137 139 445 2>&1 | grep OK | grep -Eo "192.168.NetID.:[0-9]" ;done
+   40  ssh -MS /tmp/jump demo1@10.50.12.21
+   41  ssh -MS /tmp/newjump -fN agent@10.50.11.82
+   42  ssh -MS /tmp/newjump agent@10.50.11.82
+   43  ssh demo1@10.50.12.21 -L 1111:10.208.50.61:80
+   44  ls
+   45  ssh demo1@10.50.12.21 -L 1111:10.208.50.61:80
+   46  ssh -S /tmp/jump jump -o forward -L 1111:10.50.12.21:22
+   47  ssh -S /tmp/jump jump -O forward -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+   48  ssh -S /tmp/jump jump -O cancel -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+   49  ssh demo1@10.50.12.21 -L 1111:10.208.50.61:80
+   50  ssh -S /tmp/jump jump -O forward -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+   51  ssh -S /tmp/jump jump -O cancel -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+   52  ss -ntlp
+   53  ssh -S /tmp/jump jump -O forward -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+   54  ss -ntlp
+   55  ss -antlp
+   56  cleat
+   57  clear
+   58  history
+   59  clear
+   60  ssh -MS /tmp/jump student@10.50.11.82
+   61  ssh -MS /tmp/jump agent@10.50.11.82
+   62  ssh -MS /tmp/newjump agent@10.50.11.82
+   63  ssh -MS /tmp/newjump -fN agent@10.50.11.82
+   64  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   65  ssh -MS /tmp/newjump -fN agent@10.50.11.82
+   66  ssh -MS /tmp/newjump agent@10.50.11.82
+   67  ssh -MS /tmp/newjump -fN agent@10.50.11.82
+   68  ss -antlp | grep 22
+   69  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   70  ssh -MS /tmp/newjump -fN agent@10.50.11.82
+   71  ssh -S /tmp/newjump agent@10.50.11.82
+   72  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   73  ssh -S /tmp/newjump agent@10.50.11.82
+   74  cleaR
+   75  clear
+   76  ssh -S /tmp/newjump agent@10.50.11.82
+   77  ssh -S /tmp/newjump agent@10.50.11.82
+   78  ssh -MS /tmp/newjump -fN agent@10.50.11.82
+   79  ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   80  ssh -S /tmp/newjump agent@10.50.11.82
+   81  ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   82  ssh -MS /tmp/newjump -fN agent@10.50.11.82
+   83  ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   84  ssh -MS /tmp/newjump -fN agent@10.50.11.82
+   85  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   86  ssh -S /tmp/newjump agent@10.50.11.82
+   87  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   88  ssh -S /tmp/newjump agent@10.50.11.82
+   89  ssh -MS /tmp/newnewjump -fN agent@10.50.11.82
+   90  exit
+   91  ssh -MS /tmp/newnewjump -fN agent@10.50.11.82
+   92  ss -antlp
+   93  exit
+   94  ssh -S /tmp/newnewjump agent@10.50.11.82
+   95  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+   96  ss -antlp
+   97  ssh -S /tmp/newnewjump agent@10.50.11.82
+   98  ssh agent@10.50.11.82
+   99  ssh -S /tmp/newnewjump agent@10.50.11.82
+  100  ssh -S /tmp/newnewjump jump agent@10.50.11.82
+  101  ssh -S /tmp/newnewjump agent@10.50.11.82
+  102  ssh -S /tmp/box1 agent@10.50.11.82
+  103  ssh -MS /tmp/box1 -fN agent@10.50.11.82
+  104  ss -antlp
+  105  ssh ssh -S /tmp/box1 -O exit agent@10.50.11.82
+  106  ssh ssh -S /tmp/newjump -O exit agent@10.50.11.82
+  107  ssh -S /tmp/newnewjump -O exit agent@10.50.11.82
+  108  rm /tmp/newnewjump
+  109  ssh ssh -S /tmp/jump -O exit agent@10.50.11.82
+  110  ssh ssh -S /tmp/box1 -O exit agent@10.50.11.82
+  111  ssh -MS /tmp/box1 agent@10.50.11.82
+  112  ssh ssh -S /tmp/box1 -O exit agent@10.50.11.82
+  113  ssh -S /tmp/box1 -O exit agent@10.50.11.82
+  114  ssh -MS /tmp/box1 -fN agent@10.50.11.82
+  115  ssh -S /tmp/demo demo1@10.50.12.21
+  116  ssh -MS /tmp/demo demo1@10.50.12.21 -nF 2>/dev/null
+  117  ssh -S /tmp/demo demo -O forward -D 9050
+  118  ssh -S /tmp/demo demo - O forward -L 42070:10.208.50.42:80
+  119  ssh -S /tmp/day2 day2 -O forward -L 10000:10.50.11.82:22
+  120  ssh -S /tmp/day2 -O forward -L 10000:10.50.11.82:22
+  124  ssh -S /tmp/day2 student@10.50.11.82
+  125  clear
+  126  ssh -S /tmp/day2 student@10.50.11.82
+  127  ssh -S /tmp/day2 day2 -O forward -D 9050
+  128  ssh -S /tmp/day2 day2 -p 10007 -O forward -D 9050
+  129  ssh -S /tmp/day2 day2 -p 10004 -O forward -D 9050
+  130  ssh -S /tmp/day2 day2 -O forward -D 9050
+  131  proxychains nnmap -T4 10.100.28.40 80 4444
+  132  proxychains nmap -T4 10.100.28.40 80 4444
+  133  proxychains nmap -T4 10.100.28.55 1-1000
+  134  ssh -S /tmp/day2 day2 -p 10007 -O forward -D 9050
+  135  proxychains nmap -T4 10.100.28.55 1-1000
+  136  ssh -S /tmp/day2 day2 -p 10004 -O forward -D 9050
+  137  ssh -S /tmp/day2 day2 -p 10005 -O forward -D 9050
+  138  proxychains nmap -T4 10.100.28.55 1-1000
+  139  proxychains nmap -T4 10.100.28.40 80 4444
+  140  ps -elf | grep 9050
+  141  kill 10820
+  142  exit
+  143  ssh -S /tmp/day2 day2 -p 10005 -O forward -D 9050
+  144  proxychains nmap -T4 10.100.28.55 1-1000
+  145  nmap -T4 10.100.28.55
+  146  nmap -Pn -T4 10.100.28.55
+  147  ssh -MS /tmp/box2 admin2@10.50.11.82
+  148  ssh -S /tmp/box1 agent@10.50.11.82
+  149  ssh -MS /tmp/box1 -fN agent@10.50.11.82
+  150  ssh ssh -S /tmp/box1 -O exit agent@10.50.11.82
+  151  ssh -MS /tmp/box1 -fN agent@10.50.11.82
+  152  ssh student@10.50.11.82
+  153  ssh ssh -S /tmp/box1 -O exit agent@10.50.11.82
+  154  ssh -S /tmp/box1 agent@10.50.11.82
+  155  ssh ssh -S /tmp/box1 agent@10.50.11.82
+  156  ssh ssh -S /tmp/box1  agent@10.50.11.82
+  157  ssh -S /tmp/box1  agent@10.50.11.82
+  158  proxychains nmap --script+heixt
+  159  ip a
+  160  ls /tmp/
+  161  ps -elf | grep 9050
+  162  ps -elf
+  163  ps -elf | grep -D
+  164  ps -elf | grep "-D"
+  165  ps -elf | grep 9050
+  166  ps -elf | grep /tmp/day2
+  167  kill 10972
+  168  kill 10970
+  169  ssh -S /tmp/day2 day2 -O cancel -D 9050
+  170  exit
+  171  ssh student@10.50.11.82
+  172  clear
+  173  ssh -MS /tmp/day2 student@10.50.11.82 -nF 2>/dev/null
+  174  ssh -MS /tmp/day2 -fN student@10.50.11.82
+  175  ssh -S /tmp/day2 day2 -O forward -D 9050
+  176  proxychains nmap -T4 10.100.28.40 -p 1-1000
+  177  proxychains nmap -T4 10.100.28.40 -p 1-10000
+  178  proxychains nc 127.0.0.1 4444
+  179  proxychains nc 10.100.28.40 4444
+  180  ssh -S /tmp/day2 day2 -O forward -L 10001:10.100.28.40:4444 -L 10002:10.100.28.40:88
+  181  ssh -S /tmp/day2 day2 -O forward -L 10002:10.100.28.40:88
+  182  ssh -S /tmp/day2 day2 -O forward -L 10001:10.100.28.40:4444 -L 10002:10.100.28.40:80
+  183  ssh -S /tmp/day2 day2 -O forward -L 10002:10.100.28.40:80
+  184  ps -elf | grep 10002
+  185  kill 8941
+  186  kill 8681
+  187  ssh -S /tmp/day2 day2 -O forward -L 10002:10.100.28.40:80
+  188  ps -elf | grep 10002
+  189  ss -antlp
+  190  rm /tmp/day2
+  191  clear
+  192  ssh -MS /tmp/day2 -fN student@10.50.11.82
+  193  ssh -S /tmp/day2 day2 -O forward -D 9050
+  194  ps -elf | grep 9050
+  195  kill 8969
+  196  ss -antlp
+  197  clear
+  198  proxychains nmap -T4 10.100.28.40 22 80 4444
+  199  ssh -S /tmp/day2 -L 10004:10.100.28.40:80
+  200  ssh -S /tmp/day2 day2 -L 10004:10.100.28.40:80
+  201  ssh -S /tmp/day2 day2 -O forward -D 9050
+  202  proxychains
+  203  proxychains nmap -T4 10.100.28.40 -p 80
+  204  ssh -S /tmp/day2 day2 -O forward -D 9050
+  205  ssh -S /tmp/day2 day2 -L 10004:10.100.28.40:80
+  206  proxychains nmap -T4 10.100.28.40 -p 80 4444
+ 207  ssh -S /tmp/day2 day2 -p 10005 -O forward -D 9050
+  208  proxychains nmap -T4 10.100.28.40 -p 80 4444
+  209  ssh -S /tmp/day2 day2 -p 10004 -O forward -D 9050
+  210  proxychains nmap -T4 10.100.28.40 -p 80 4444
+  211  ls -la /tmp/day2
+  212  ls
+  213  ls /tmp
+  214  ssh -S /tmp/day2 day2 -p 10005 -L 10007:10.100.28.55:80
+  215  ssh -MS /tmp/day2 -fN student@10.50.11.82
+  216  ssh -S /tmp/day2 day2 -p 10004 -L 10007:10.100.28.55:80
+  217  clear
+  218  rm /tmp/day2
+  219  ssh -MS /tmp/day2 -fN student@10.50.11.82
+  220  ssh -S /tmp/day2 day2 -O forward -D 9050
+  221  ssh -S /tmp/day2 day2 -p 4001 -O forward -D 9050
+  222  ssh -S /tmp/day2 day2 -O cancel -D 9050
+  223  ssh -S /tmp/day2 day2 -p 4001 -O forward -D 9050
+  224  ssh -S /tmp/day2 day3 -p 4001 -O forward -D 9050
+  225  rm /tmp/day2
+  226  ps -elf | grep 9050
+  227  ssh -S /tmp/day2 day2 -O cancel
+
+  229  ps -elf | grep 9050
+  230  ssh -S /tmp/day2 day3 -p 4001 -O forward -D 9050
+  231  proxychains nmap --script+http-enum 10.100.28.40 80
+  232  proxychains nmap --script-http-enum 10.100.28.40 80
+  233  proxychains nmap --script http-enum 10.100.28.40 80
+  234  proxychains nc -lvpk 10.100.28.40 10002
+  235  proxychains nc -lvpk 10.100.28.40 -p 10002
+  236  proxychains nc -lvpk 10.100.28.40 -p 10001
+  237  proxychains nc -lvpk 10.100.28.40 -p 10000
+  238  proxychains nc -lvpk 10.100.28.40 10004
+  239  proxychains nc -lvpk 10.100.28.40 -p 10004
+  240  proxychains nc -lvpk 10.100.28.40 -p 10007
+  241  proxychains nc -lvpk 10.100.28.55
+  242  proxychains nc -lvpk 10.100.28.55 10001
+  243  proxychains nc -lvpk 10.100.28.55 10007
+  244  proxychains nc -lvpk 10.100.28.55 10006
+  245  proxychains nc -lvpk 10.100.28.40 10005
+  246  proxychains nc -lvpk 10.100.28.40 10006
+  247  nc 127.0.0.1 10006
+  248  nc -lk 127.0.0.1 10006
+  249  nc -lk 10.50.139.158 10006
+  250  nc -lk 10.50.139.158 10004
+  251  ssh student@127.0.0.1 -p 10005
+  252  ls
+  253  ssh-keygen -t rsa -b 4096
+  254  cat /home/student/.ssh/id_rsa.pub
+  255  ssh student@127.0.0.1 -p 10005
+  256  ssh billybob@127.0.0.1 -p 10005
+  257  clear
+  258  ssh -S /tmp/day2 day2 -L 4000:10.50.11.82:22
+  259  ssh -S /tmp/day2 day2 -p 4000 -L 4001:10.100.28.40:4444
+  260  ssh -S /tmp/day2 -L 10005:10.100.28.40:4444
+  261  ssh -S /tmp/day2 -O forward -L 10005:10.100.28.40:4444
+  262  ssh -S /tmp/day2 day2 -O forward -L 10005:10.100.28.40:4444
+  263  ssh -S /tmp/day2 day2 -p 10004 -L 10005:10.100.28.40:4444
+
+  264  touch 503.png.php
+  265  vim 503.png.php
+  266  nano 503.png.php 
+  267  nano 503.php 
+  268  ssh billybob@10.100.28.40
+  269  ssh -S /tmp/day2 day2 -p 10004 -L 10005:10.100.28.40:4444
+  270  clear
+  271  ps -elf | grep 9050
+  272  pkill 9050
+  273  ps -elf | grep 9050
+  274  kill 10896
+  275  kill 3715
+  276  kill 10039
+  277  ps -elf | grep 9050
+  278  proxychains -T4 10.100.28.40 -p 80 4444
+  279  proxychains nmap -T4 10.100.28.40 -p 80 4444
+  280  proxychains nmap -T4 10.100.28.40 -p 4444
+  281  proxy
+  282  ls
+  283  proxychains nmap -T4 10.100.28.55
+  284  exir
+  285  clear
+  286  ssh -S /tmp/day2new new -O forward -D 9050
+  287  proxychains nmap -T4 10.100.28.40
+  288  proxychains nmap -T4 10.100.28.40/24
+  289  proxychains nc 0.0.0.0 4444
+  290  proxychains -nmap -T4 10.100.28.55 1-1000
+  291  proxychains nmap -T4 10.100.28.55 1-1000
+  292  ssh -S /tmp/day2new new -O cancel -D 9050
+  293  history
+  294  history | grep 9050
+  295  restart
+  296  ssh -MS /tmp/day2new -fN student@10.50.11.82
+  297  ssh -S /tmp/demo demo -O forward -D 9050
+  298  ssh -S /tmp/demo demo -O cancel -D 9050
+  299  ssh -S /tmp/day2 day2 -O cancel -D 9050
+  300  ls /tmp
+  301  ssh -S /tmp/day2new new -O cancel -D 9050
+  302  ps -elf | grep 9050
+  303  ssh billybob@10.100.28.40
+  304  ssh student@127.0.0.1 -p 10005
+  305  ssh -S /tmp/day2new new -L 4101:10.100.28.40:80
+  306  ps -elf 
+  307  ps -elf | grep 9050
+  308  ssh -S /tmp/day2new -O forward -L 10005:10.50.11.82:22
+  309  ssh -S /tmp/day2new -O forward -L 4100:10.50.11.82:22
+  310  ssh -S /tmp/day2new new -O forward -L 4100:10.50.11.82:22
+  311  ssh -S /tmp/day2new new -L 4100:10.50.11.82:22
+  312  ping 192.168.28.111
+  313  ssh student@10.50.11.82 -L 1234:192.168.28.111:80
+  314  clear
+  315  ssh -MS /tmp/web student@10.50.11.82 -Nf 2>/dev/null
+  316  echo "2990" | md5sum
+  317  ssh student@10.50.11.82
+  318  ssh -S /tmp/web web -O forward -L 1234:192.168.28.111:80
+  319  ssh -S /tmp/sql sql -O forward -L 5000:10.50.11.82:22
+  320  ssh -MS /tmp/demo demo1@10.50.12.21 -nF 2>/dev/null
+  321  ssh -S /tmp/demo demo -O forward -L 6767:10.208.50.61:80
+  322  ssh -MS /tmp/demo demo1@10.50.12.21
+  323  ssh -MS /tmp/demo demo1@10.50.12.21 -Nf 2>/dev/null
+  324  ssh -S /tmp/demo demo -O forward -L 6767:10.208.50.61:80
+  325  clear
+  326  ssh -S /tmp/sql sql -O forward -p 5000 -L 5001:10.100.28.48:80
+  327  ls -la
+  328  clear
+  329  proxychains nmap -T4 10.100.28.48 -p 1-5000
+  330  ssh -MS /tmp/sql student@10.50.11.82 -Nf 2>/dev/null
+  331  ssh -S /tmp/sql -O forward -p 5000 -D 9050
+  332  ssh -S /tmp/sql sql -O forward -p 5000 -D 9050
+  333  ssh -S /tmp/t1 new -p 4104 -O forward -L 4105:4.2.2.2:53
+  334  ssh -S /tmp/t1 new -p 4104 -O forward -L 4105:10.100.28.55:4444
+  335  ssh -S /tmp/t1 new -p 4104 -O forward -L 4106:10.100.28.55:4444
+  336  ssh -S /tmp/t1 new -p 4106
+  337  ssh student@127.0.0.1 -p 4105
+  338  ip a
+  339  proxychains nc 4.2.2.2 53
+  340  proxychains ping 4.2.2.2.2
+  341  proxychains ping 4.2.2.2
+  342  proxychains nmap -T4 4.2.2.2
+  343  proxychains nmap -T4 4.2.2.2 -p 22
+  344  ssh -S /tmp/t1 new -p 4104 -O forward -L 4105:10.100.28.55:4444
+  345  proxychains ip s
+  346  proxychains ip a
+  347  proxychains nmap -T4 10.100.28.55 -p 1-10000
+  348  proxychains nc 10.100.28.55 4444
+  349  proxychains nc 10.100.28.55 80
+  350  proxychains nc 127.0.0.1 4105
+  351  proxychains telnet 4.2.2.2
+  352  proxychains telnet 4.2.2.2 53
+  353  proxychains nmap --script http-enum 10.100.28.55
+  354  proxychains -lk nc 127.0.0.1 12345
+  355  proxychains nc -lk 127.0.0.1 12345
+  356  nc -lk 10.50.139.158 12345
+  357  nc -lk 127.0.0.1 41404
+  358  nc -lk 127.0.0.1 4104
+  359  nc -lk 127.0.0.1 41044
+  360  nc -lk 10.100.28.55 41404
+  361  proxychains nc -lk 127.0.0.1 12345
+  362  proxychains nmap --script http* 10.100.28.55
+  363  proxychains nmap --script http-enum 10.100.28.55
+  364  proxychains nmap --script http-* 10.100.28.55
+  365  proxychains nmap --script http-enum 10.100.28.55
+  366  proxychains nmap --script http* 10.100.28.55
+  367  proxychains nmap -T4 10.100.28.40/27
+  368  nmap -T4 10.100.28.40/27
+  369  proxychains nmap -T4 10.100.28.55
+  370  proxychains nmap -T4 10.100.28.55 -p 10000-65535
+  371  proxychains nmap -T4 10.100.28.55 -p 1-10000
+  372  proxychains whoami
+  373  proxychains nmap -T4 10.100.28.55
+  374  proxychains whoami
+  375  ssh billybob@127.0.0.1 -p 4102
+  376  ssh -S /tmp/day2 new -p 4101 -L 4102:10.100.28.40:4444
+  377  ssh -S /tmp/day2 new -p 4101 -O forward -L 4102:10.100.28.40:4444
+  378  ssh -S /tmp/day2 new -p 4100 -L 4101:10.100.28.40:80
+  379  ssh -S /tmp/day2 new -p 4100 -O forward -L 4101:10.100.28.40:80
+  380  proxychains nmap -T4 10.100.28.40 80 4444
+  381  ssh -S /tmp/day2 new -p 4102 -L 4103:10.100.28.55:80
+  382  ssh -S /tmp/day2 new -p 4102 -O forward -L 4103:10.100.28.55:80
+  383  ssh -S /tmp/t1 new -p 4102 -O forward -L 4103:10.100.28.55:80
+  384  ssh -S /tmp/t1 -p 4102 -O forward -L 4103:10.100.28.55:80
+  385  ssh -S /tmp/t1 new -O forward -L 4103:10.100.28.55:80
+  386  ssh -S /tmp/t1 new -p 4102 -O forward -L 4103:10.100.28.55:80
+  387  ssh -S /tmp/t1 new billybob@127.0.0.1 -p 4102 -O forward -L 4103:10.100.28.55:80
+  388  ssh -S /tmp/t1 billybob@127.0.0.1 -p 4102 -O forward -L 4103:10.100.28.55:80
+  389  ssh -S /tmp/t1 billybob@127.0.0.1 -O forward -L 4103:10.100.28.55:80
+  390  ssh -S /tmp/t1 new -O forward -L 4103:10.100.28.55:80
+  391  ssh -S /tmp/t1 new -p 4102 -O forward -L 4103:10.100.28.55:80
+  392  ssh -S /tmp/t1 new -O cancel -L 4103:10.100.28.55:80
+  393  ssh -S /tmp/t1 new -p 4102 -O cancel -L 4103:10.100.28.55:80
+  394  ssh -S /tmp/t1 new -p 4102 -O forward -L 4103:10.100.28.55:80
+  395  ssh -S /tmp/t1 new -p 4102 -O forward -L 4104:10.100.28.55:80
+  396  ssh -S /tmp/day2 -L 4100:10.50.11.82:22
+  397  ssh -S /tmp/day2 new -L 4100:10.50.11.82:22
+  398  ssh -S /tmp/day2 new -O forward -L 4100:10.50.11.82:22
+  399  ssh -S /tmp/day2 new -p 4100 -O forward -D 9050
+  400  clear
+  401  ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 42071 -fN 2>/dev/null
+  402  ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa billybob@10.100.28.40 -p 4444  -fN 2>/dev/null
+  403  proxychains nc 10.100.28.40 4444
+  404  ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa billybob@127.0.0.1 -p 4102  -fN 2>/dev/null
+  405  ssh -S /tmp/t1 new -p 4100 -O forward -D 9050
+  406  ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa billybob@127.0.0.1  -fN 2>/dev/null
+  407  ssh -MS /tmp/t1 -i .ssh/id_rsa billybob@localhost  -fN 2>/dev/null
+  408  ssh -MS /tmp/t1 -i .ssh/id_rsa billybob@10.100.28.40 -p 4444 -fN 2>/dev/null
+  409  ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa billybob@127.0.0.1 -p 4102 -fN 2>/dev/null
+  410  ssh -S /tmp/t1 a@1
+  411  ssh -S /tmp/t1 -O forward -D 9050 a@1
+  412  proxychains whoami
+  413  ssh -S /tmp/t1 -O cancel -D 9050 a@1
+  414  ssh -S /tmp/t1 -O forward 4444:localhost:4444 a@1
+  415  ssh -S /tmp/t1 -O forward -D 9050 a@1
+  416  netstat -antlp
+  417  proxychains whoami
+  418  ssh -S /tmp/t1 -O cancel 4444:localhost:4444 a@1
+  419  ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa billybob@127.0.0.1 -p 4102 -fN 2>/dev/null
+  420  ssh -S /tmp/t1 -O forward -D 9050
+  421  ssh -S /tmp/t1 -p 4102 -O forward -D 9050
+  422  ssh -S /tmp/t1 -O forward -D 9050
+  423  ssh -S /tmp/t1 -O cancel 4444:localhost:4444 a@1
+  424  ssh -S /tmp/t1 new -p 4102 -O forward -D 9050
+  425  ssh -S /tmp/t1 new -O forward -D 9050
+  426  ssh -S /tmp/t1 new -p 4102 -O forward -D 9050
+  427  proxychain whoami
+  428  proxychains whoami
+  429  proxychains ping 10.100.28.55
+  430  ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa billybob@127.0.0.1 -p 4102
+  431  ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa billybob@127.0.0.1 -p 4102 -fN
+  432  ssh -MS /tmp/day2 -fN student@10.50.11.82
+  433  ssh -S /tmp/day2 new -O cancel -D 9050
+  434  ssh -S /tmp/day2 new -p 4102 -O forward -D 9050
+  435  proxychains nmap -T4 10.100.28.55
+  436  proxychains ping 10.100.28.55
+  437  proxychains whoami
+  438  ssh -S /tmp/day2 new -O cancel -D 9050
+  439  ssh -S /tmp/day2 new -p 4102 -D 9050
+  440  ssh -S /tmp/t1 new -p 4102 -D 9050
+  441  ssh -S /tmp/t1 new -D 9050
+  442  ssh -S /tmp/t1 -D 9050
+  443  ssh -S /tmp/
+  444  ssh -S /tmp/t1 -O forward -D 9050 a@1
+  445  netstat -antlp
+  446  ssh -S /tmp/t1 -O cancel -D 9050 a@1
+  447  ssh -S /tmp/day2new -O cancel -D 9050 a@1
+  448  ssh -S /tmp/day2 -O cancel -D 9050 a@1
+  449  ssh -S /tmp/t1 -O forward -D 9050 a@1
+  450  proxychains whoami
+  451  proxychains ip a
+  452  netstat -antlp
+  453  ssh -S /tmp/day2 -O cancel -D 9050 a@1
+  454  ssh -S /tmp/t1 -O forward -D 9050 a@1
+  455  ssh -S /tmp/t1 -O forward -D 9050
+  456  ssh -S /tmp/t1 new -O forward -D 9050
+  457  ssh -MS /tmp/day2new -fN student@10.50.11.82
+  458  ssh -MS /tmp/day2 -fN student@10.50.11.82
+  459  ssh -S /tmp/t1 new -O forward -D 9050
+  460  ssh student@127.0.0.1 -p 9000
+  461  proxychains 
+  462  proxychains nmap 192.168.150.245
+  463  proxychains nmap -Pn -T4192.168.150.245
+  464  proxychains nmap -Pn -T4 192.168.150.245
+  465  proxychains nmap -T4 192.168.150.245
+  466  clear
+  467  ss -antlp | grep 9050
+  468  kill 37
+  469  kill 233
+  470  ss -antlp 
+  471  kill 37233
+  472  clear
+  473  proxychains nmap 192.168.150.245
+  474  proxychains ip a
+  475  proxychains nmap 192.168.150.245
+  476  proxychains nmap -T4 192.168.150.245
+  477  proxychains nmap -T4 192.168.150.245 -p 9999
+  478  clear
+  479  ps -elf | 9050
+  480  ss -antlp | grep 9050
+  481  clear
+  482  ss -antlp | grep 9050
+  483  kill 26018
+  484  ss -antlp
+  485  nc 0.0.0.0 5901
+  486  proxychains wget -r ftp://192.168.28.105
+  487  ss -antlp
+  488  ss -antlp | grep 9050
+  489  ls
+  490  cd 192.168.28.120\:4242/
+  491  ls
+  492  cat index.html 
+  493  ls
+  494  cd 192.168.28.100
+  495  ls
+  496  cat index.html 
+  497  cd ..
+  498  ls
+  499  cd 192.168.28.111
+  500  ls
+  501  cd sites/
+  502  ls
+  503  cat NSC-Contacts.html 
+  504  cd ..
+  505  ls
+  506  cd ..
+  507  ls
+  508  cd 192.168.28.111:8080
+  509  s
+  510  ls
+  511  cd ..
+  512  ls
+  513  cd 192.168.28.120\:4242/
+  514  ls
+  515  ls -la
+  516  cd ..
+  517  ssh student@127.0.0.1 -p 5100
+  518  ssh student@10.50.11.82
+  519  clear
+  520  ssh student@10.50.11.82
+  521  clear
+  522  nmap -p 80 --script http-enum 192.168.28.111
+  523  proxychains nmap -p 80 --script http-enum 192.168.28.111
+  524  proxychains nmap -p 80 192.168.28.111
+  525  proxychains nmap -p 1-5000 192.168.28.111
+  526  proxychains nmap -p 1-10000 192.168.28.111
+  527  proxychains nmap -p 1-50000 192.168.28.111
+  528  proxychains nmap 192.168.28.96/27
+  529  proxychains nmap -Pn 192.168.28.96/27
+  530  clear
+  531  ssh student@10.50.11.82
+  532  nano -l YN.py
+  533  ssh -S /tmp/recon recon -O forward -L 5001:192.168.28.111:80
+  534  ssh -S /tmp/recon recon -O forward -L 5001:192.168.28.105:80
+  535  ssh -S /tmp/recon recon -O forward -L 5002:192.168.28.105:80
+  536  ssh -S /tmp/recon recon -O cancel -L 5002:192.168.28.105:80
+  537  ssh -S /tmp/recon recon -O cancel -L 5002:192.168.28.111:8080
+  538  ssh -S /tmp/recon recon -O forward -L 5002:192.168.28.111:8080
+  539  proxychains nc -Cv 127.0.0.1 5000
+  540  proxychains nc -Cv 127.0.0.1 5001
+  541  ssh -S /tmp/recon recon -O forward -L 5100:192.168.28.111:2222
+  542  ssh -S /tmp/rec rec -O forward -L 5000:10.50.11.82:22
+  543  ssh -S /tmp/rec rec -O forward -D 9050
+  544  ssh -S /tmp/rec rec -O forward -p 5000 -D 9050
+  545  ssh -S /tmp/rec rec -O f -D 9050 a@1
+  546  for i in {225..254}; do proxychains nc -nvzw1 192.168.NetID.$i 22 53 80 135 137 139 445 2>&1 | grep OK | grep -Eo "192.168.NetID.:[0-9]" ;done
+  547  proxychains for i in {97..126} ;do (ping -c 1 192.168.28.$i | grep "bytes from" &) 2>/dev/null ;done
+  548  clear
+  549  proxychains ping 192.168.28.97
+  550  proxychains 192.168.28.111 80
+  551  proxychains nc 192.168.28.111 80
+  552  proxychains nc 192.168.28.120 80
+  553  proxychains nc 192.168.28.105 80
+  554  proxychains nc -z -v -w 192.168.28.11 1-5000
+  555  proxychains nc -z -v -w 192.168.28.111 1-5000
+  556  proxychains nc -z -v -w 192.168.28.111 1-1000
+  557  proxychains nc -z -v -w 192.168.28.111 440-443
+  558  proxychains nc -Cv 192.168.28.111 80
+  559  nmap -sS -Pn 192.168.28.111 -p 135-139,22,80,443,21,8080
+  560  sudo nmap -sS -Pn 192.168.28.111 -p 135-139,22,80,443,21,8080
+  561  nmap -T4 192.168.28.111 -p 135-139,22,80,443,21,8080
+  562  nmap -Pn -T4 192.168.28.111 -p 135-139,22,80,443,21,8080
+  563  clear
+  564  ssh -S /tmp/recon recon -O forward -L 5000:10.50.11.82:22
+  565  ssh -S /tmp/recon recon -O forward -p 5000 -D 9050
+  566  ssh -S /tmp/recon recon -O forward -L 5003:192.168.28.120:4242
+  567  ssh -S /tmp/recon recon -O cancel -L 5003:192.168.28.120:4242
+  568  ssh -MS /tmp/rec -nF student@10.50.11.82 2>/dev/null
+  569  ssh -MS /tmp/rec  student@10.50.11.82 2>/dev/null
+  570  ssh -MS /tmp/rec -Nf  student@10.50.11.82 2>/dev/null
+  571  ssh -S /tmp/rec rec -O forward -D 9050
+  572  ssh -S /tmp/rec rec -p 5000 -O forward -D 9050
+  573  ssh -S /tmp/rec rec -O forward -D 9050
+  574  ssh -MS /tmp/rec -Nf  student@10.50.11.82 2>/dev/null
+  575  ssh -MS /tmp/rec student@10.50.11.82
+  576  rm /tmp/rec
+  577  ssh -MS /tmp/recon -Nf student@10.50.11.82
+  578  ping 192.168.28.96/27
+  579  nmap
+  580  clear
+  581  nmap -T4 192.168.28.96/27 -p 21,23,80,22
+  582  proxychains nmap -T4 192.168.28.96/27 -p 21,23,80,22
+  583  proxychains nmap -T4 192.168.150.224/27
+  584  proxychains nmap -T4 192.168.28.96/27
+  585  nmap -T4 192.168.150.224/27
+  586  nmap -T4 192.168.28.96/27
+  587  proxychains ip a
+  588  proxychains nmap -T4 192.168.28.96/27
+  589  proxychains nmap -T4 192.168.28.96/27 -p 80
+  590  clear
+  591  ssh -S tmp/rec rec -O forward -L 5001:192.168.28.111:80
+  592  proxychains nmap -T4 192.168.28.111 -p 80
+  593  proxychains nmap 192.168.28.111 -p 80
+  594  proxychains nmap -p 445 --script smb-os-discovery 192.168.28.96/27
+  595  proxychains nmap -p 445 --script smb-os-discovery 192.168.28.97
+  596  proxychains nmap -p 445 --script smb-os-discovery 192.168.28.100
+  597  proxychains nmap -p 445 --script smb-os-discovery 192.168.28.111
+  598  proxychains nmap -p 445 --script smb-os-discovery 192.168.28.105
+  599  proxychains nmap -p 445 --script smb-os-discovery 192.168.28.120
+  600  proxychains nmap -sV --script=banner.nse 192.168.28.105
+  601  proxychains nmap -T4 192.168.28.97
+  602  proxychains nmap -T4 192.168.28.100
+  603  proxychains nmap -T4 192.168.28.105
+  604  proxychains nmap -T4 192.168.28.111
+  605  proxychains nmap -T4 192.168.28.120
+  606  proxychains nmap 192.168.28.120
+  607  proxychains 192.168.28.120
+  608  proxychains nmap -Pn 192.168.28.120
+  609  proxychains nmap -T4 192.168.28.120 -p 1-20000
+  610  proxychains nmap -p 4242 --script ssh* 192.168.28.120
+  611  ssh student@192.168.28.120
+  612  ssh student@192.168.28.120 -p 4242
+  613  ssh student@127.0.0.1 -p 5003
+  614  proxychains nmap 192.168.28.96/27
+  615  proxychains nmap -p 4242 --script ssh* 192.168.28.120
+  616  for i in {96..128}; do proxychains nc -nvzw1 192.168.NetID.$i 22 53 80 135 137 139 445 2>&1 | grep OK | grep -Eo "192.168.NetID.:[0-9]" ;done
+  617  proxychains wget -r http://192.168.28.97
+  618  proxychains wget -r http://192.168.28.100
+  619  proxychains wget -r http://192.168.28.100:8080
+  620  proxychains wget -r http://192.168.28.105
+  621  proxychains wget -r http://192.168.28.105:8080
+  622  proxychains wget -r http://192.168.28.111
+  623  proxychains wget -r http://192.168.28.111:8080
+  624  proxychains wget -r http://192.168.28.120
+  625  proxychains wget -r http://192.168.28.120:4242
+  626  proxychains 
+  627  proxychains nmap -p 4242 --script smb-os-discovery 192.168.28.120
+  628  proxychains wget -r smb://192.168.28.120:4242
+  629  smb
+  630  ssh student@127.0.0.1 -p 5003
+  631  proxychains ftp 192.168.28.105
+  632  proxychains nmap -p 80 --script http-enum 192.168.28.96/27
+  633  proxychains nmap -p 80 --script http-enum 192.168.28.111
+  634  proxychains nmap -p 80 --script http-enum 192.168.28.111 -p 8080
+  635  proxychains nmap -p 8080 --script http-enum 192.168.28.111 
+  636  proxychains nmap -p 4242 --script http-enum 192.168.28.120
+  637  proxychains nmap 192.168.28.96/27 -p 2222
+  638  proxychains nmap 192.168.28.100 -p 2222
+  639  proxychains nmap 192.168.28.105 -p 2222
+  640  proxychains nmap 192.168.28.111 -p 2222
+  641  proxychains nmap 192.168.28.1 -p 1-10000
+  642  proxychains nmap 192.168.28.111 -p 1-10000
+  643  proxychains nmap 192.168.28.105 -p 1-10000
+  644  proxychains nmap 192.168.28.100 -p 1-10000
+  645  proxychains nmap 192.168.28.120 -p 1-10000
+  646  ls
+  647  cd 192.168.28.120\:4242/
+  648  ls
+  649  cd ..
+  650  cd 192.168.28.111
+  651  ls
+  652  cd ..
+  653  cd 192.168.28.100/
+  654  ls
+  655  cd ..
+  656  cd 192.168.28.120\:4242/
+  657  ls
+  658  cd ..
+  659  nano
+  660  nano mydemo.py
+  661  cd ..
+  662  ls
+  663  clear
+  664  ls
+  665  ls Downloads/
+  666  cd Downloads/
+  667  cat func 
+  668  clear
+  669  la
+  670  strings func
+  671  file func
+  672  chmod u+x func
+  673  ./func
+  674  ls
+  675  ./func
+  676  /func $(echo "12345")
+  677  ./func $(echo "12345")
+  678  ./func <<<$(echo "12345")
+  679  ./func <<<$(echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+  680  gdb ./func 
+  681  gdb ./func 
+  682  ssh -MS /tmp/kayuza -fN user2@10.50.14.19 2>/dev/null
+  683  ssh -S /tmp/kayuza -O forward -L 5000:10.50.14.19:80 -L 5001:10.50.14.19:22 2>/dev/null
+  684  ssh -S /tmp/kayuza -O forward -L 5000:10.50.14.19:80
+  685  ssh -S /tmp/kayuza kayuza -O forward -L 5000:10.50.14.19:80 -L 5001:10.50.14.19:22 2>/dev/null
+  686  ssh -S /tmp/kayuza kayuza -O cancel -L 5000:10.50.14.19:80 -L 5001:10.50.14.19:22 2>/dev/null
+  687  ssh -S /tmp/kayuza kayuza -O forward -L 5000:10.50.14.19:80
+  688  ssh -S /tmp/kayuza kayuza -O forward -L 5000:10.50.14.19:22
+  689  nmap 10.50.14.19
+  690  nc 10.50.14.19 22
+  691  ssh -S /tmp/kayuza kayuza -O forward -L 5001:10.50.14.19:22
+  692  ssh -S /tmp/kayuza kayuza -O cancel -L 5000:10.50.14.19:22
+  693  ssh -S /tmp/kayuza kayuza -O cancel -L 5000:10.50.14.19:80
+  694  ssh -S /tmp/kayuza kayuza -O cancel -L 5001:10.50.14.19:22
+  695  rm rf /tmp/kayuza 
+  696  rm -rf /tmp/kayuza 
+  697  ssh -MS /tmp/kayuza -fN www-data@10.50.14.19 2>/dev/null
+  698  rm -rm /tmp/kayuza
+  699  rm -rf /tmp/kayuza
+  700  ssh -MS /tmp/kayuza -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 42071 -fN 2>/dev/nul
+  701  ssh -MS /tmp/kayuza -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 42071 -fN
+  702  ssh -MS /tmp/kayuza -i $HOME/.ssh/id_rsa www-data@10.50.14.19 -fN
+  703  ssh -S /tmp/kayuza kayuza -O forward -L 5000:10.50.14.19:80
+  704  ssh -S /tmp/kayuza kayuza -O forward -L 5001:10.50.14.19:22
+  705  rm -rf /tmp/kayuza
+  706  ssh -MS /tmp/kayuza -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 5000 -fN 2>/dev/null
+  707  ssh -MS /tmp/kayuza -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 5001 -fN 2>/dev/null
+  708  ssh -MS /tmp/t1 www-data@127.0.0.1 -p 5000 -fN 2>/dev/null
+  709  ssh -MS /tmp/t1 www-data@127.0.0.1 -p 9999 -fN 2>/dev/null
+  710  ssh -MS /tmp/kayuza -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 9999 -fN 2>/dev/null
+  711  rm -rf /tmp/t1
+  712  ssh -MS /tmp/t1 www-data@10.50.14.19 -fN 2>/dev/null
+  713* 
+  714  ssh -MS /tmp/t1 www-data@127.0.0.1 -p 6000 -fN 2>/dev/null
+  715  ssh -MS /tmp/kayuza -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 6000 -fN 2>/dev/null
+  716  rm -rf /tmp/t1
+  717  rm -rf /tmp/kayuza
+  718  ssh -MS /tmp/t1 www-data@10.50.14.19 -fN
+  719  ssh -S /tmp/t1 -O forward -L 5000:10.50.14.19:22
+  720  ssh -S /tmp/t1 t1 -O forward -L 5000:10.50.14.19:22
+  721  ssh -S /tmp/t1 t1 -O forward -L 5001:10.50.14.19:80
+  722  ssh -S /tmp/t1 t1 -O forward -L 5001:192.168.28.175:8000
+  723  ssh -S /tmp/t1 t1 -O forward -L 5200:192.168.28.175:8000
+  724  ssh -S /tmp/t1 t1 -O cancel -L 5200:192.168.28.175:8000
+  725  ssh www-data@10.50.14.19 -L 5300:192.168.28.175:8000
+  726  ssh www-data@10.50.14.19 -L 5300:192.168.28.175:8000 -NT
+  727  ssh www-data@10.50.14.19 -L 5300:192.168.28.175:2222 -NT
+  728  ssh -S /tmp/t1 t1 -O forward -L 5301:192.168.28.165:22 2>/dev/null
+  729  ssh -MS /tmp1/kayuza user2@127.0.0.1 -p 5301 
+  730  ssh -MS /tmp1/kayuza user3@127.0.0.1 -p 5301 
+  731  ssh -S /tmp/t1 t1 -O forward -L 5301:192.168.28.165:22 -fN
+  732  ssh -MS /tmp1/kayuza user3@127.0.0.1 -p 5301 
+  733  ssh -MS /tmp/kayuza user3@127.0.0.1 -p 5301 
+  734  ssh -MS /tmp/kayuza user3@127.0.0.1 -p 5301 -fN
+  735  ssh -S /tmp/kayuza kayuza -O forward -L 5301:192.168.28.165:22
+  736  ssh -S /tmp/kayuza kayuza -O forward -L 5302:192.168.28.165:22
+  737  ssh -S /tmp/kayuza kayuza -O forward -L 5303:192.168.28.165:8888
+  738  ssh -S /tmp/kayuza kayuza -O forward -L 5302:192.168.28.165:22
+  739  ssh -MS /tmp/kayuza user3@127.0.0.1 -p 5301 -fN
+  740  ssh -S /tmp/kayuza kayuza -O forward -L 5302:192.168.28.165:22
+  741  ssh -S /tmp/kayuza kayuza -O forward -D 9050 -p 5302
+  742  ssh -S /tmp/kayuza kayuza -O forward -L 5302:192.168.28.165:22
+  743  ssh -MS /tmp/kayuza user3@127.0.0.1 -p 5301 -fN
+  744  ssh -S /tmp/t1 t1 -O forward -L 5301:192.168.28.165:22 -fN
+  745  ssh -MS /tmp/t1 www-data@10.50.14.19 -fN
+  746  ssh -S /tmp/t1 t1 -O forward -L 5000:10.50.14.19:22
+  747  ssh -S /tmp/t1 t1 -O forward -L 5001:192.168.28.175:8000
+  748  ssh -S /tmp/t1 t1 -O forward -L 5301:192.168.28.165:22 2>/dev/null
+  749  ssh -MS /tmp/kayuza user3@127.0.0.1 -p 5301 -fN
+  750  ssh -S /tmp/kayuza kayuza -O forward -L 5302:192.168.28.165:22
+  751  ssh -S /tmp/kayuza kayuza -O forward -L 5303:192.168.28.189:22
+  752  ssh -S /tmp/kayuza kayuza -O forward -L 5304:192.168.28.189:3389
+  753  ssh -MS /tmp/kayuza user3@127.0.0.1 -p 5301 -fN
+  754  ssh -S /tmp/kayuza kayuza -O forward -L 5304:192.168.28.189:3389
+  755  ssh -S /tmp/kayuza kayuza -O cancel -L 5304:192.168.28.189:3389
+  756  ssh -S /tmp/kayuza kayuza -O forward -L 5304:192.168.28.189:3389
+  757  ssh -MS /tmp/kayuza user3@127.0.0.1 -p 5301 -fN
+  758  ssh -S /tmp/kayuza kayuza -O forward -L 5304:192.168.28.189:3389
+  759  history >> commandsrun.txt
 
 
