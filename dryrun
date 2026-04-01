@@ -1,0 +1,72 @@
+##FROM OP STATION##
+10.50.12.32/classinfo.html
+Stack Number	Username	  Password	    jump
+2 	          AUCL-M-503 	iBIYULdfmjkA 	10.50.14.19
+
+
+SITREP: This is a dry run operation to prepare you for tomorrow's real operation. You will be provided with a mission task sheet, RoE, and scope.
+
+Maintain 'low visibility' on the wire, as security products may be in place, and document your actions and results as you will be expected to provide OpNotes at the end of the operation.
+
+Take notes on this document.
+ss
+Dry Run Operation
+XX June 2024
+Start Time: 0830
+Duration: 3 hours
+
+Type of Operation: Information Systems Penetration Test
+
+Objective:Actively exploit and attack networked information systems for the purposes of identifying and reporting vulnerabilities.
+
+Tasking:Perform all tasks outlined in this document.
+
+Mission Scope:
+
+All public facing systems of target entitiy excluding devices responsible for networking (routers, switches, etc). Known web address will be supplied out of band.
+
+Internal network of target entity excluding devices responsible for networking (routers, switches, etc)
+
+RoE:
+
+Google docs, and all other shareable document platforms, are forbidden during this operation.
+
+All communication platforms and applications, such as Slack or Gmail, are forbidden during this operation.
+
+You are authorized to modify passwords to user accounts.
+
+Writing to disk is authorized on all machines.
+
+You will not destroy data/systems, perform DoS, or otherwise disrupt business operations of any entity during this penetration test.
+
+You will not use Metasploit tools for any affect with the exception of shellcode generation.
+
+You will not target routers, switches or other networking devices.
+
+You will not target entities or systems outside of the scope previously defined.
+
+You will not interfere with other entities' operations in any way.
+
+Prior Approvals: OSINT through publicly available resources. Scrape appropriate web content that will provide operational data. Testing of found credentials. NOT approved to change routing or destroy data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
