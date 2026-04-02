@@ -145,9 +145,95 @@ DO IT ON THE TGT SYSTEM !!! ALL OF THIS MUST BE DONE ON THE FUCKING TGT SYSTEM !
      on the tgt machine: sudo ./exploit_me $(python exploit.py)       then itll show a # if it worked & you can enter whoami & itll show root!!
           
 
+## PEN TESTING AND VULN
+
+  -> Advanced Scanning Techniques
+  Host Discovery
+  
+  Find hosts that are online
+  
+  Port Enumeration
+  
+  Find ports for each host that is online
+  
+  Port Interrogation
+  
+  Find what service is running on each open/available port
+  
+  
+SSH for Reconnaissance
+Why? "Live off the land", route tools, reach internal services
+
+Dynamic SOCKS (-D): Proxychains support (TCP only)
+
+Local Forward (-L): Access internal services (web/SSH)
+
+Remote Forward (-R): Expose local tools to target
+
+ProxyJump (-J): Clean multi-hop navigation
 
 
 
+
+Script Management
+Scripts are stored in a subdirectory of the Nmap data directory by default:
+
+
+
+/usr/share/nmap/scripts
+
+
+
+Usage and Examples
+!!! Note NSE scripts provide automated vulnerability detection and service enumeration capabilities
+
+# Run specific script or category
+nmap --script <filename>|<category>|<directory>
+
+# Get help for specific scripts
+nmap --script-help "ftp-* and discovery"
+
+# Pass arguments to scripts
+nmap --script-args <args>
+nmap --script-args-file <filename>
+
+# Get help for scripts
+nmap --script-help <filename>|<category>|<directory>
+
+# Enable script tracing for debugging
+nmap --script-trace
+
+master socket ssh -> every box create a new master socket
+ssh -MS /tmp/jump demo1@10.50.12.21
+
+proxychains
+ssh -S /tmp/jump jump -O forward -D 9050
+
+-> nmap for host discovery ip
+for i in {1..255}; do (ping -c 1 10.50.12.$i | grep "bytes from" &); done
+
+64 bytes from 10.50.12.22: 53
+64 bytes from 10.50.12.23: 22, 53, 3389
+64 bytes from 10.50.12.24: 22, 53, 3389
+
+
+-> running a script wildcard* if you dont know which to use
+nmap -p 53 --script dns* 10.50.12.22-24
+
+to verify http 300s redirection 400s errors
+nmap -p 80 --script http-enum 10.50.12.22-24
+
+-> ping sweep
+for i in {96..128}; do proxychains nc -nvzw1 192.168.NetID.$i 22 53 80 135 137 139 445 2>&1 | grep OK | grep -Eo "192.168.NetID.:[0-9]" ;done
+for i in {1..254} ;do (ping -c 1 192.168.1.$i | grep "bytes from" &) 2>/dev/null ;done
+multiple port forward
+ssh -S /tmp/jump jump -O forward -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+
+cancel them
+ssh -S /tmp/jump jump -O cancel -L 1111:10.50.12.21:22 -L 1112:10.50.12.21:80
+
+to check to make sure connections is connected
+ss -antlp
 
 
 
