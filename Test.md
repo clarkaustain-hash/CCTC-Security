@@ -182,7 +182,7 @@ Linux:
 cat /etc/passwd, sudo -l, find SUID
 Check cron jobs, logs, SSH keys
 
-Windows:
+Windows:'
 
 net user, tasklist /svc, ipconfig /all
 Check Scheduled Tasks, Services, Run keys
