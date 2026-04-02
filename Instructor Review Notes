@@ -82,6 +82,32 @@ sudo -l
 if you hit bash returns you back to user3
 13. cd /root -> cat ab.sh | run. -> look at everything like RE_ME.obs -> reverse engineering move it to windows and use gihdra and look for sucessfull
 14. in gidra two carrots(>> or <<) means bit shift -> google bit shift calc if 21 >> 2 ==8 move to the right 2
+
+15. for i in {1..255}; do (ping -c 1 192.168.28.$i | grep "bytes from" &); done
+16. 192.168.28.189 ttl was 128 which equals windows linux us 64
+
+17. ssh -S /tmp/jmp a@1 -0 cancel -D 9050
+18. ssh -S /tmp/Round a@1 -O forward -D 9050
+19. proxychains nmap 192.168.28.185
+
+
+## WindowsWorkstation //192.168.28.185
+22,135,139,445,3389,5357,9999 -> 22,3389,9999 important
+1. ssh -S /tmp/Round a@1 -O forward -L 4002:192.168.28.189:22 -L 4003:192.168.28.189:3389(RDP)
+2. ssh -MS /tmp/Winders -fN Aaron@127.0.0.1 -p 4002
+3. ssh -S /tmp/Winders a@1
+4. xfreerdp /u:student /v:localhost:RHP /dynamic-resolution +clipboard
+take the fingerprint and replace then one below leave localHost
+5. check folder and show hidden .config -> freerdp 
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+13.
+14.
 15.
 16.
 17.
@@ -94,8 +120,6 @@ if you hit bash returns you back to user3
 
 
 
-
-## WindowsWorkstation
 
 
 CCTC Security
