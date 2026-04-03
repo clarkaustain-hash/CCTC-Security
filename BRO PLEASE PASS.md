@@ -1,8 +1,8 @@
 
 # Penetration Testing Lab Notes
 
-Stack Number	Username	Password	jump
-2 	AUCL-M-503 	h0SGfv8QuA6C 	10.50.12.54
+## Stack Number	    Username	                  Password	                  jump
+   2 	              AUCL-M-503 	                h0SGfv8QuA6C 	              10.50.12.54
 
 ---
 
