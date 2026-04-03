@@ -1,10 +1,8 @@
 
 # Penetration Testing Lab Notes
 
-**Stack:** 4  
-**Network:** `10.208.50.200/24`  
-**Primary Target:** `10.50.16.50` (PublicFacingWebsite)  
-**Warning:** Do **NOT** use your jump box today.
+Stack Number	Username	Password	jump
+2 	AUCL-M-503 	h0SGfv8QuA6C 	10.50.12.54
 
 ---
 
@@ -16,7 +14,7 @@ ssh demo1@10.50.14.253 -L 1111:10.208.50.61:80
 Browse: http://127.0.0.1:1111/classinfo
 
 Credentials
-Username:JADU-019-M
+Username:
 Password:gXliXVXVuULy
 Phase 1: Initial Enumeration (PublicFacingWebsite)
 Target Details
